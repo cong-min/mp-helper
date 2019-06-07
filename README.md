@@ -13,8 +13,34 @@
 
 ### TODO
 
-- 语法增强，新增 `computed` 等
-- 压缩图片
+- 工具库：语法增强，新增 `computed` 等
+- 命令行：压缩图片
+
+
+## 安装
+
+```bash
+$ npm i -S mp-helper
+```
+
+### 配置
+
+在项目中 `package.json` 文件字段 `scripts` 配置
+
+```js
+"scripts": {
+  "dev": "mp-helper -w src dist",
+  "build": "mp-helper src dist"
+}
+```
+
+- `src` 为输入路径
+- `dist` 为输出路径
+- 使用 `npm run dev` 命令开发
+- 使用 `npm run build` 命令构建
+
+至此即可使用 `.mp` 单文件规范进行开发
+
 
 ## `.mp` 单文件
 
@@ -79,9 +105,9 @@ Page({
 | 页面样式 `style` | 生成 [index.wxss](https://developers.weixin.qq.com/miniprogram/dev/framework/quickstart/code.html#WXSS-样式) | `lang` 可选值为 `less`、`wxss`，默认值为 `wxss` |
 
 
-#### 编译
+#### 解析编译
 
-执行 `mp-helper` 命令可完成 `.mp` 文件的解析与编译：
+利用 `mp-helper` 命令行可完成对 `.mp` 文件的解析与编译：
 
 ```
 Usage: mp-helper [options] <input> <output>
