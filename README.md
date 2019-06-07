@@ -1,5 +1,7 @@
 # 微信小程序轻量级组件化开发助手(库)
 
+[![mp-helper](https://img.shields.io/npm/v/mp-helper.svg?style=flat-square)](https://www.npmjs.com/package/mp-helper)
+
 ### 特性
 
 - `.mp` 单文件页面/组件，组件化内聚且耦合
