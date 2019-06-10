@@ -19,7 +19,7 @@
 </template>
 
 <script>
-Page({
+App({
     // 页面数据
     data: {
         userInfo: null
