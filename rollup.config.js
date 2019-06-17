@@ -1,6 +1,7 @@
 // rollup.config.js
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
+import json from 'rollup-plugin-json';
 
 export default [
     // esm
@@ -13,7 +14,8 @@ export default [
         },
         plugins: [
             resolve(),
-            commonjs()
+            commonjs(),
+            json()
         ]
     },
     // cjs
@@ -26,7 +28,8 @@ export default [
         },
         plugins: [
             resolve(),
-            commonjs()
+            commonjs(),
+            json()
         ]
     }
 ];

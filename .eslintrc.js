@@ -6,5 +6,6 @@ module.exports = {
         'wx': false, // wx 全局变量
         'App': false, // App 全局变量
         'Page': false, // Page 全局变量
+        'Component': false, // // Component 全局变量
     },
 };

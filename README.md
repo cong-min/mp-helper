@@ -212,9 +212,15 @@ $ mp-helper -c -w
 
 ### mp.App(`options`)
 
+`options` 支持所有的 [原生 App 参数](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html)，此外新增了：
+
 
 ### mp.Page(`options`)
 
+`options` 支持所有的 [原生 Page 参数](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html)，此外新增了：
+
 
 ### mp.Component(`options`)
+
+`options` 支持所有的 [原生 Component 参数](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Component.html)，此外新增了：
 

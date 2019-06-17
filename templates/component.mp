@@ -1,57 +1,69 @@
-<config lang="json">
-{
-    "navigationBarTitleText": ""
-}
-</config>
-
 <template>
-<view class="container">
+<view class="wrapper">
 
 </view>
 </template>
 
 <script>
 import mp from 'mp-helper';
-// 注册 Page
-mp.Page({
-    // 页面数据
+// 注册 Component
+mp.Component({
+    // 配置项
+    options: {},
+
+    // 引用组件混入
+    //behaviors: [],
+    // 定义组件间关系
+    //relations: {},
+
+    // 组件接受的外部样式类
+    //externalClasses: [],
+    // 组件的对外属性
+    properties: {
+
+    },
+    // 组件的内部数据
     data: {
 
     },
+    // 组件数据字段监听器
+    observers: {},
 
-    /* 生命周期 */
-    // 页面加载
-    onLoad(options) {},
-    // 页面切入显示
-    onShow(options) {},
-    // 页面渲染完成
-    onReady() {},
-    // 页面隐藏
-    onHide() {},
-    // 页面卸载
-    onUnload() {},
-
-    /* 页面事件 */
-    // 下拉刷新
-    //onPullDownRefresh() {},
-    // 上拉触底
-    //onReachBottom() {},
-    // 页面滚动
-    //onPageScroll(event) {},
-    // 页面尺寸改变
-    //onResize() {},
-    // 转发分享 (定义了此事件，右上角菜单将显示 转发 按钮)
-    //onShareAppMessage(event) {},
-    // 当前是 Tab 页时，点击 Tab 项
-    //onTabItemTap(item) {},
+    /* 组件生命周期 */
+    lifetimes: {
+        // 组件实例被创建
+        created(options) {},
+        // 组件实例进入页面节点树
+        attached(options) {},
+        // 组件布局完成
+        ready() {},
+        // 组件实例被移动到节点树另一个位置
+        moved() {},
+        // 组件实例被从页面节点树移除
+        detached() {},
+    },
+    /* 组件所在页面的生命周期 */
+    pageLifetimes: {
+        // 页面被展示
+        show() {},
+        // 页面被隐藏
+        hide() {},
+        // 页面尺寸变化
+        resize(size) {}
+    },
 
     /* Methods */
+    methods: {
+
+    },
+
+    /* Others */
 
 });
 </script>
 
 <style lang="less">
-.container {
+.wrapper {
 
 }
 </style>
