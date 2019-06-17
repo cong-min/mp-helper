@@ -1,32 +1,22 @@
-<config>
+<config lang="json">
 {
-    "navigationBarBackgroundColor": "#ffffff",
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "演示页面",
-    "backgroundColor": "#eeeeee",
-    "backgroundTextStyle": "light"
+    "navigationBarTitleText": ""
 }
 </config>
 
 <template>
 <view class="container">
-    <button wx:if="{{ !userInfo }}" bind:tap="tapButton">按钮</button>
-    <block wx:else>
-        <image src="{{ userInfo.avatarUrl }}"></image>
-        <text class="nickname">{{ userInfo.nickName }}</text>
-    </block>
+
 </view>
 </template>
 
 <script>
-import dayjs from 'dayjs';
-import README from './README.txt';
-const uniq = require('lodash/uniq');
-// 注册 APP
-App({
+import mp from 'mp-helper';
+// 注册 Page
+mp.Page({
     // 页面数据
     data: {
-        userInfo: null
+
     },
 
     /* 生命周期 */
@@ -56,19 +46,12 @@ App({
     //onTabItemTap(item) {},
 
     /* Methods */
-    tapButton() {
-        this.setData({
-            userInfo: {
-                avatarUrl: '',
-                nickName: '昵称',
-            }
-        });
-    }
+
 });
 </script>
 
 <style lang="less">
 .container {
-    background: #fff;
+
 }
 </style>

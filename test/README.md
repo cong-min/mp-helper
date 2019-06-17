@@ -11,3 +11,9 @@ $ node bin/mp-helper.cli.js "test/input/**" test/output
 ```bash
 $ node bin/mp-helper.cli.js -w test/input test/output
 ```
+
+### 测试使用配置文件
+
+```bash
+$ node bin/mp-helper.cli.js -c test/package.json
+```

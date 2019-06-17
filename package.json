@@ -1,15 +1,16 @@
 {
   "name": "mp-helper",
-  "version": "0.0.2",
+  "version": "0.1.1",
   "description": "微信小程序轻量级组件化开发助手(库)",
   "license": "UNLICENSE",
-  "main": "dist/mp-helper.min.js",
+  "main": "dist/mp-helper.js",
   "files": [
     "bin",
     "dist",
     "lib"
   ],
   "scripts": {
+    "build": "rollup -c",
     "lint": "eslint --fix \"**/*.js\"",
     "outdated": "tnpm outdated"
   },
@@ -27,18 +28,25 @@
     "del": "^4.1.1",
     "glob-parent": "^5.0.0",
     "gulp": "^4.0.2",
+    "konan": "^1.2.1",
     "less": "^3.9.0",
     "lodash": "^4.17.11",
     "parse5": "^5.1.0",
     "plugin-error": "^1.0.1",
+    "pumpify": "^1.5.1",
+    "resolve-from": "^5.0.0",
     "through2": "^3.0.1",
-    "vinyl": "^2.2.0"
+    "vinyl": "^2.2.0",
+    "vinyl-fs": "^3.0.3"
   },
   "devDependencies": {
     "eslint": "^5.8.0",
     "eslint-config-soda-design": "^1.1.0",
     "husky": "^2.4.0",
-    "lint-staged": "^8.2.0"
+    "lint-staged": "^8.2.0",
+    "rollup": "^1.15.6",
+    "rollup-plugin-commonjs": "^10.0.0",
+    "rollup-plugin-node-resolve": "^5.0.3"
   },
   "husky": {
     "hooks": {

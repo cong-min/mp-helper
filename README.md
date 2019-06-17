@@ -1,33 +1,41 @@
-# 微信小程序轻量级组件化开发助手(库)
+# 微信小程序轻量级组件化开发助手(类库)
 
 [![mp-helper](https://img.shields.io/npm/v/mp-helper.svg?style=flat-square)](https://www.npmjs.com/package/mp-helper)
 
+MP Helper 不是一个框架，而是基于小程序原生 MINA 框架的开发助手与语法增强类库
+
 ### 特性
 
-- `.mp` 单文件页面/组件，组件化内聚且耦合
+- 使用 `.mp` 单文件页面组件化开发，内聚且耦合
+- 支持 `require` `import` 直接引入 npm 包依赖
 
 ### 特点
 
-- 不改变小程序原生 MINA 框架的语法，轻量易用，低侵入性，低学习成本
+- 轻量易用，低侵入性，低学习成本
+- 不改变小程序原生 MINA 框架的语法，同时支持原生写法
 - 编译时不会对 js 语法进行转译 （因此请开启微信开发者工具的 `ES6 转 ES5` `增强编译` 功能）
 
 ### TODO
 
-- 工具库：语法增强，新增 `computed` 等
-- 命令行：压缩图片
+- `API` 语法增强，新增 `computed` 等能力
+- 命令行 `CLI`：图片支持压缩
+- 命令行 `CLI`：`<config>` 支持 js 语法
 
 
-## 安装
+## 快速上手
+
+安装
 
 ```bash
 $ npm i -S mp-helper
 ```
 
-### 配置
+### 配置 CLI
 
 在项目中 `package.json` 文件字段 `scripts` 配置
 
 ```js
+/* package.json */
 "scripts": {
   "dev": "mp-helper -w src dist",
   "build": "mp-helper src dist"
@@ -41,8 +49,41 @@ $ npm i -S mp-helper
 
 至此即可使用 `.mp` 单文件规范进行开发
 
+此外，还可配置[微信开发者工具 - 自定义预处理功能](https://developers.weixin.qq.com/miniprogram/dev/devtools/debug.html#自定义预处理)
+
+> 使用时需开启: 详情 - 启用自定义处理命令
+
+```js
+/* project.config.json */
+"scripts": {
+  "beforePreview": "npm run build",
+  "beforeUpload": "npm run build"
+}
+```
+
+### 引入工具库
+
+```html
+<!-- .mp -->
+<script>
+import mp from 'mp-helper';
+// ...
+</script>
+```
+
+> `mp-helper` CLI 在解析 `.mp` 文件时会自动处理引入的 npm 包依赖
+
+
+---
 
 ## `.mp` 单文件
+
+#### 模板
+
+开发时可参考文件模板：
+- [app.mp](./templates/app.mp)
+- [page.mp](./templates/page.mp)
+- [component.mp](./templates/component.mp)
 
 #### 例子
 
@@ -70,7 +111,14 @@ $ npm i -S mp-helper
 </template>
 
 <script>
-Page({
+// 若想使用对原生 App/Page/Component 对象进行增强的语法
+// 可引入 mp-helper API 代替进行注册小程序/页面/组件
+//   App -> mp.App
+//   Page -> mp.Page
+//   Component -> mp.Component
+import mp from 'mp-helper';
+
+mp.Page({ 
     data: {
         userInfo: null
     },
@@ -110,20 +158,63 @@ Page({
 利用 `mp-helper` 命令行可完成对 `.mp` 文件的解析与编译：
 
 ```
-Usage: mp-helper [options] <input> <output>
+Usage: mp-helper [options] <input...> <output>
 
 Options:
-  -w, --watch    监听文件变化
-  -v, --version  output the version number
-  -h, --help     output usage information
+  -w, --watch            监听文件变化
+  -c, --config <config>  高级配置模式 (默认读取 ./package.json)
+  -v, --version          output the version number
+  -h, --help             output usage information
 
 Arguments:
   <input>   输入路径 (Globs 规则)
   <output>  输出路径
 
 Examples:
+# 纯命令行模式
 $ mp-helper ./src ./dist
 $ mp-helper -w ./src ./dist
 $ mp-helper "src/**.mp" ./dist
+# 高级配置模式 (读取 ./package.json `mp-helper` 字段)
+$ mp-helper -c
+$ mp-helper -c -w
 ```
+
+**配置模式：** 在文件 `package.json` 进行配置的例子
+
+```js
+{
+    // ...
+    "mp-helper": {
+        // io 输入输出 支持配置多个
+        "io": [
+            {
+                "input": "./input",
+                "output": "./output"
+            },
+            {
+                "input": ["./src/**.mp", "./static"],
+                "output": "./dist"
+            }
+        ],
+        // 是否开启监听 默认 false
+        "watch": false,
+        // 是否清理 output 文件夹 默认 false
+        "clean": false,
+        // 是否提取依赖 默认 true
+        "extractDeps": true
+    }
+}
+```
+
+
+## 增强 API
+
+### mp.App(`options`)
+
+
+### mp.Page(`options`)
+
+
+### mp.Component(`options`)
 

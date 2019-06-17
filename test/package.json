@@ -1,0 +1,13 @@
+{
+  "mp-helper": {
+    "io": [
+      {
+        "input": "./input",
+        "output": "./output"
+      }
+    ],
+    "watch": false,
+    "clean": false,
+    "extractDeps": true
+  }
+}
