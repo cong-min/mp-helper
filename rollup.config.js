@@ -6,7 +6,7 @@ import json from 'rollup-plugin-json';
 export default [
     // esm
     {
-        input: 'lib/helper/index.js',
+        input: 'lib/core/index.js',
         output: {
             name: 'mp',
             file: 'dist/mp-helper.js',
@@ -20,7 +20,7 @@ export default [
     },
     // cjs
     {
-        input: 'lib/helper/index.js',
+        input: 'lib/core/index.js',
         output: {
             name: 'mp',
             file: 'dist/mp-helper.common.js',

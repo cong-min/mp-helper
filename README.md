@@ -61,7 +61,7 @@ $ npm i -S mp-helper
 }
 ```
 
-### 引入工具库
+### 引入类库 Core
 
 ```html
 <!-- .mp -->
