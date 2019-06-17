@@ -1,15 +1,18 @@
 'use strict';
 
-var version = "0.1.1";
+var version = "0.2.0";
 
+// 注册小程序
 function _App(options) {
     return App(options);
 }
 
+// 注册页面
 function _Page(options) {
     return Page(options);
 }
 
+// 注册组件
 function _Component(options) {
     return Component(options);
 }
