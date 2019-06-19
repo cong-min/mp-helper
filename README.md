@@ -49,18 +49,6 @@ $ npm i -S mp-helper
 
 至此即可使用 `.mp` 单文件规范进行开发
 
-此外，还可配置[微信开发者工具 - 自定义预处理功能](https://developers.weixin.qq.com/miniprogram/dev/devtools/debug.html#自定义预处理)
-
-> 使用时需开启: 详情 - 启用自定义处理命令
-
-```js
-/* project.config.json */
-"scripts": {
-  "beforePreview": "npm run build",
-  "beforeUpload": "npm run build"
-}
-```
-
 ### 引入类库 Core
 
 ```html
@@ -224,3 +212,37 @@ $ mp-helper -c -w
 
 `options` 支持所有的 [原生 Component 参数](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Component.html)，此外新增了：
 
+```js
+mp.Component({
+    computed,
+})
+```
+
+#### 属性 `computed`
+
+内置小程序官方的组件扩展 `computed` Behavior，详见 [computed](https://github.com/wechat-miniprogram/computed) |
+
+
+### 工具库 mp.utils
+
+```js
+const {
+    classNames,
+    inlineStyles
+} = mp.utils;
+```
+
+#### classNames(`...`)
+
+- 参数：见 [JedWatson/classnames](https://github.com/JedWatson/classnames)
+- 返回：`class` 字符串
+
+类名属性连接工具，将数组、对象等形式 `class` 转换为字符串，详见 [classnames](https://github.com/JedWatson/classnames)
+
+
+#### inlineStyles(`styleObject`)
+
+- `styleObject`: 对象形式 style
+- 返回：`style` 字符串
+
+样式属性连接工具，将对象形式 `style` 转换为行内字符串
