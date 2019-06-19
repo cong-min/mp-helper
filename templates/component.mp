@@ -1,3 +1,9 @@
+<config>
+{
+    "component": true
+}
+</config>
+
 <template>
 <view class="wrapper">
 
@@ -24,6 +30,10 @@ mp.Component({
     },
     // 组件的内部数据
     data: {
+
+    },
+    // 组件的计算数据 (mp-helper 增强API)
+    computed: {
 
     },
     // 组件数据字段监听器

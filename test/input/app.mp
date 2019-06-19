@@ -10,7 +10,7 @@
 
 <template>
 <view class="container">
-    <button wx:if="{{ !userInfo }}" bind:tap="tapButton">按钮</button>
+    <button wx:if="{{ !userInfo && true }}" bind:tap="tapButton">按钮</button>
     <block wx:else>
         <image src="{{ userInfo.avatarUrl }}"></image>
         <text class="nickname">{{ userInfo.nickName }}</text>
@@ -70,5 +70,11 @@ App({
 <style lang="less">
 .container {
     background: #fff;
+}
+</style>
+
+<style>
+.container {
+    color: #000;
 }
 </style>

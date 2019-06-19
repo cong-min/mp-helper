@@ -29,6 +29,7 @@ mp.App({
     onPageNotFound() {},
 
     /* Global Data */
+    //globalData: {},
 
     /* Global Methods */
 
