@@ -8,16 +8,17 @@ MP Helper 不是一个框架，而是基于小程序原生 MINA 框架的开发�
 
 - 使用 `.mp` 单文件页面组件化开发，内聚且耦合
 - 支持 `require` `import` 直接引入 npm 包依赖
+- `API` 语法增强，新增数据状态管理 `store` `context`、事件管理 `emitter`、计算数据 `computed` 等能力
 
 ### 特点
 
 - 轻量易用，低侵入性，低学习成本
 - 不改变小程序原生 MINA 框架的语法，同时支持原生写法
 - 编译时不会对 js 语法进行转译 （因此请开启微信开发者工具的 `ES6 转 ES5` `增强编译` 功能）
+- 小程序基础库最低要求 v2.6.1
 
 ### TODO
 
-- `API` 语法增强，新增 `computed` 等能力
 - 命令行 `CLI`：图片支持压缩
 - 命令行 `CLI`：`<config>` 支持 js 语法
 
@@ -198,14 +199,44 @@ $ mp-helper -c -w
 
 ## 增强 API
 
+> **约定：** 为了与小程序原生API进行区别，在注册 App/Page/Component 方法内新增的属性与方法名前会加上 `$`
+
 ### mp.App(`options`)
 
 `options` 支持所有的 [原生 App 参数](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html)，此外新增了：
+
+```js
+mp.Component({
+    $store,
+})
+```
+
+#### 属性 `$store`
+
+用于存储全局数据，将注入到所有页面与组件的 `data.$store` 内, 因此需慎重存储重要的数据
+
+在 App/Page/Component 内都可通过 `this.$setStore` 方法设置全局数据使页面响应, 用法与一致 `this.setData`
 
 
 ### mp.Page(`options`)
 
 `options` 支持所有的 [原生 Page 参数](https://developers.weixin.qq.com/miniprogram/dev/reference/api/Page.html)，此外新增了：
+
+```js
+mp.Page({
+    $context,
+})
+```
+
+> 若想将页面以自定义组件形式构造，可参见官方提供的方法 [使用 Component 构造器构造页面](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/component.html#使用-Component-构造器构造页面)
+
+#### 属性 `$context`
+
+用于存储当前页面上下文数据，将注入到当前页面及其所有组件的 `data.$context` 内, 跨页面不共享
+
+在 Page/Component 内都可通过 `this.$setContext` 方法设置当前页面上下文数据使页面响应, 用法与一致 `this.setData`
+
+需注意的是，在 Component 内只能在 `ready` 生命周期后调用 `this.$setContext`
 
 
 ### mp.Component(`options`)
@@ -214,13 +245,65 @@ $ mp-helper -c -w
 
 ```js
 mp.Component({
-    computed,
+    $computed,
 })
 ```
 
-#### 属性 `computed`
+#### 属性 `$computed`
 
-内置小程序官方的组件扩展 `computed` Behavior，详见 [computed](https://github.com/wechat-miniprogram/computed) |
+```js
+$computed: {
+    total: {
+        depend: ['list'], // 即 this.data.list
+        get(list) {
+            return list.length;
+        }
+    },
+    showList: {
+        depend: ['total', 'loading'], // 即 computed total (this.data.total) 和 this.data.loading
+        get(total, loading) {
+            return total && !loading;
+        }
+    },
+}
+```
+
+此处需通过 `depend` 声明当前计算属性所用到的依赖数据（在 `this.data` 中的 `path`），取值会作为参数传入 `get` 方法中，实际上可以理解为是 [小程序组件 observers](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/observer.html) 的语法糖
+
+计算属性最终将会注入至 `this.data` 内
+
+
+### 事件监听
+
+- 全局事件监听（四种方式）：
+  - `mp.on()`
+  - App 内: `this.$on()`
+  - Page 内: `this.$app.$on()`
+  - Component 内: `this.$app.$on()`
+- 单个页面实例事件监听：
+  - Page 内: `this.$on()`
+  - Component 内: `this.$page.$on()`
+
+#### on(`type`, `handler`)
+
+- `type`: String 要侦听的事件名称
+- `handler`: Function 事件响应函数
+
+注册事件监听
+
+#### off(`type`, `handler`)
+
+- `type`: String 要取消的事件名称
+- `handler`: Function 其事件响应函数
+
+取消事件侦听
+
+#### emit(`type`, `...args`)
+
+- `type`: String 要取消的事件名称
+- `...args`: 传入事件响应函数的参数
+
+触发事件
 
 
 ### 工具库 mp.utils
@@ -234,8 +317,8 @@ const {
 
 #### classNames(`...`)
 
-- 参数：见 [JedWatson/classnames](https://github.com/JedWatson/classnames)
-- 返回：`class` 字符串
+- 参数: 见 [JedWatson/classnames](https://github.com/JedWatson/classnames)
+- 返回: `class` 字符串
 
 类名属性连接工具，将数组、对象等形式 `class` 转换为字符串，详见 [classnames](https://github.com/JedWatson/classnames)
 
@@ -243,6 +326,6 @@ const {
 #### inlineStyles(`styleObject`)
 
 - `styleObject`: 对象形式 style
-- 返回：`style` 字符串
+- 返回: `style` 字符串
 
 样式属性连接工具，将对象形式 `style` 转换为行内字符串

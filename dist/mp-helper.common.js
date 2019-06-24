@@ -1,280 +1,2093 @@
 'use strict';
 
-var version = "0.2.1";
-
-// 注册小程序
-function _App(options) {
-    return App(options);
-}
-
-// 注册页面
-function _Page(options) {
-    return Page(options);
-}
+var version = "0.2.2";
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
-
-function unwrapExports (x) {
-	return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
-}
 
 function createCommonjsModule(fn, module) {
 	return module = { exports: {} }, fn(module, module.exports), module.exports;
 }
 
-var miniprogram_dist = createCommonjsModule(function (module) {
-module.exports =
-/******/ (function(modules) { // webpackBootstrap
-/******/ 	// The module cache
-/******/ 	var installedModules = {};
-/******/
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/
-/******/ 		// Check if module is in cache
-/******/ 		if(installedModules[moduleId]) {
-/******/ 			return installedModules[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = installedModules[moduleId] = {
-/******/ 			i: moduleId,
-/******/ 			l: false,
-/******/ 			exports: {}
-/******/ 		};
-/******/
-/******/ 		// Execute the module function
-/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/
-/******/ 		// Flag the module as loaded
-/******/ 		module.l = true;
-/******/
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/
-/******/
-/******/ 	// expose the modules object (__webpack_modules__)
-/******/ 	__webpack_require__.m = modules;
-/******/
-/******/ 	// expose the module cache
-/******/ 	__webpack_require__.c = installedModules;
-/******/
-/******/ 	// define getter function for harmony exports
-/******/ 	__webpack_require__.d = function(exports, name, getter) {
-/******/ 		if(!__webpack_require__.o(exports, name)) {
-/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
-/******/ 		}
-/******/ 	};
-/******/
-/******/ 	// define __esModule on exports
-/******/ 	__webpack_require__.r = function(exports) {
-/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 		}
-/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 	};
-/******/
-/******/ 	// create a fake namespace object
-/******/ 	// mode & 1: value is a module id, require it
-/******/ 	// mode & 2: merge all properties of value into the ns
-/******/ 	// mode & 4: return value when already ns object
-/******/ 	// mode & 8|1: behave like require
-/******/ 	__webpack_require__.t = function(value, mode) {
-/******/ 		if(mode & 1) value = __webpack_require__(value);
-/******/ 		if(mode & 8) return value;
-/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
-/******/ 		var ns = Object.create(null);
-/******/ 		__webpack_require__.r(ns);
-/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
-/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
-/******/ 		return ns;
-/******/ 	};
-/******/
-/******/ 	// getDefaultExport function for compatibility with non-harmony modules
-/******/ 	__webpack_require__.n = function(module) {
-/******/ 		var getter = module && module.__esModule ?
-/******/ 			function getDefault() { return module['default']; } :
-/******/ 			function getModuleExports() { return module; };
-/******/ 		__webpack_require__.d(getter, 'a', getter);
-/******/ 		return getter;
-/******/ 	};
-/******/
-/******/ 	// Object.prototype.hasOwnProperty.call
-/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-/******/
-/******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "";
-/******/
-/******/
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
-/******/ })
-/************************************************************************/
-/******/ ([
-/* 0 */
-/***/ (function(module, exports, __webpack_require__) {
+var freeGlobal = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+var _freeGlobal = freeGlobal;
 
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+var root = _freeGlobal || freeSelf || Function('return this')();
+var _root = root;
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+var Symbol = _root.Symbol;
+var _Symbol = Symbol;
 
-module.exports = Behavior({
-  lifetimes: {
-    created: function created() {
-      this._computedCache = {};
-      this._originalSetData = this.setData;
-      this.setData = this._setData;
-      this._doingSetData = false;
-      this._doingSetProps = false;
+var objectProto = Object.prototype;
+var hasOwnProperty = objectProto.hasOwnProperty;
+var nativeObjectToString = objectProto.toString;
+var symToStringTag = _Symbol ? _Symbol.toStringTag : undefined;
+function getRawTag(value) {
+  var isOwn = hasOwnProperty.call(value, symToStringTag),
+      tag = value[symToStringTag];
+  try {
+    value[symToStringTag] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+  var result = nativeObjectToString.call(value);
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag] = tag;
+    } else {
+      delete value[symToStringTag];
     }
-  },
-  definitionFilter: function definitionFilter(defFields) {
-    var computed = defFields.computed || {};
-    var computedKeys = Object.keys(computed);
-    var properties = defFields.properties || {};
-    var propertyKeys = Object.keys(properties);
-
-    // 计算 computed
-    var calcComputed = function calcComputed(scope) {
-      var needUpdate = {};
-      var computedCache = scope._computedCache || scope.data;
-
-      for (var i = 0, len = computedKeys.length; i < len; i++) {
-        var key = computedKeys[i];
-        var getter = computed[key];
-
-        if (typeof getter === 'function') {
-          var value = getter.call(scope);
-
-          if (computedCache[key] !== value) {
-            needUpdate[key] = value;
-            computedCache[key] = value;
-          }
-        }
-      }
-
-      return needUpdate;
-    };
-
-    // 初始化 computed
-    var initComputed = function initComputed() {
-      defFields.data = defFields.data || {};
-
-      // 先将 properties 里的字段写入到 data 中
-      var data = defFields.data;
-      var hasOwnProperty = Object.prototype.hasOwnProperty;
-      if (propertyKeys.length) {
-        // eslint-disable-next-line complexity
-        Object.keys(properties).forEach(function (key) {
-          var value = properties[key];
-          var oldObserver = void 0;
-
-          // eslint-disable-next-line max-len
-          if (value === null || value === Number || value === String || value === Boolean || value === Object || value === Array) {
-            properties[key] = {
-              type: value
-            };
-          } else if ((typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object') {
-            if (hasOwnProperty.call(value, 'value')) {
-              // 处理值
-              data[key] = value.value;
-            }
-
-            if (hasOwnProperty.call(value, 'observer') && typeof value.observer === 'function') {
-              oldObserver = value.observer;
-            }
-          }
-
-          // 追加 observer，用于监听变动
-          properties[key].observer = function () {
-            var originalSetData = this._originalSetData;
-
-            for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-              args[_key] = arguments[_key];
-            }
-
-            if (this._doingSetProps) {
-              // 调用 setData 设置 properties
-              if (oldObserver) oldObserver.apply(this, args);
-              return;
-            }
-
-            if (this._doingSetData) {
-              // eslint-disable-next-line no-console
-              console.warn('can\'t call setData in computed getter function!');
-              return;
-            }
-
-            this._doingSetData = true;
-
-            // 计算 computed
-            var needUpdate = calcComputed(this);
-
-            // 做 computed 属性的 setData
-            originalSetData.call(this, needUpdate);
-
-            this._doingSetData = false;
-
-            if (oldObserver) oldObserver.apply(this, args);
-          };
-        });
-      }
-
-      // 计算 computed
-      calcComputed(defFields);
-    };
-
-    initComputed();
-
-    defFields.methods = defFields.methods || {};
-    defFields.methods._setData = function (data, callback) {
-      var originalSetData = this._originalSetData;
-
-      if (this._doingSetData) {
-        // eslint-disable-next-line no-console
-        console.warn('can\'t call setData in computed getter function!');
-        return;
-      }
-
-      this._doingSetData = true;
-
-      // TODO 过滤掉 data 中的 computed 字段
-      var dataKeys = Object.keys(data);
-      for (var i = 0, len = dataKeys.length; i < len; i++) {
-        var key = dataKeys[i];
-
-        if (computed[key]) delete data[key];
-        if (!this._doingSetProps && propertyKeys.indexOf(key) >= 0) this._doingSetProps = true;
-      }
-
-      // 做 data 属性的 setData
-      originalSetData.call(this, data, callback);
-
-      // 计算 computed
-      var needUpdate = calcComputed(this);
-
-      // 做 computed 属性的 setData
-      originalSetData.call(this, needUpdate);
-
-      this._doingSetData = false;
-      this._doingSetProps = false;
-    };
   }
+  return result;
+}
+var _getRawTag = getRawTag;
+
+var objectProto$1 = Object.prototype;
+var nativeObjectToString$1 = objectProto$1.toString;
+function objectToString(value) {
+  return nativeObjectToString$1.call(value);
+}
+var _objectToString = objectToString;
+
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+var symToStringTag$1 = _Symbol ? _Symbol.toStringTag : undefined;
+function baseGetTag(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+  return (symToStringTag$1 && symToStringTag$1 in Object(value))
+    ? _getRawTag(value)
+    : _objectToString(value);
+}
+var _baseGetTag = baseGetTag;
+
+function isObject(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+var isObject_1 = isObject;
+
+var asyncTag = '[object AsyncFunction]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    proxyTag = '[object Proxy]';
+function isFunction(value) {
+  if (!isObject_1(value)) {
+    return false;
+  }
+  var tag = _baseGetTag(value);
+  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+}
+var isFunction_1 = isFunction;
+
+var coreJsData = _root['__core-js_shared__'];
+var _coreJsData = coreJsData;
+
+var maskSrcKey = (function() {
+  var uid = /[^.]+$/.exec(_coreJsData && _coreJsData.keys && _coreJsData.keys.IE_PROTO || '');
+  return uid ? ('Symbol(src)_1.' + uid) : '';
+}());
+function isMasked(func) {
+  return !!maskSrcKey && (maskSrcKey in func);
+}
+var _isMasked = isMasked;
+
+var funcProto = Function.prototype;
+var funcToString = funcProto.toString;
+function toSource(func) {
+  if (func != null) {
+    try {
+      return funcToString.call(func);
+    } catch (e) {}
+    try {
+      return (func + '');
+    } catch (e) {}
+  }
+  return '';
+}
+var _toSource = toSource;
+
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+var funcProto$1 = Function.prototype,
+    objectProto$2 = Object.prototype;
+var funcToString$1 = funcProto$1.toString;
+var hasOwnProperty$1 = objectProto$2.hasOwnProperty;
+var reIsNative = RegExp('^' +
+  funcToString$1.call(hasOwnProperty$1).replace(reRegExpChar, '\\$&')
+  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
+);
+function baseIsNative(value) {
+  if (!isObject_1(value) || _isMasked(value)) {
+    return false;
+  }
+  var pattern = isFunction_1(value) ? reIsNative : reIsHostCtor;
+  return pattern.test(_toSource(value));
+}
+var _baseIsNative = baseIsNative;
+
+function getValue(object, key) {
+  return object == null ? undefined : object[key];
+}
+var _getValue = getValue;
+
+function getNative(object, key) {
+  var value = _getValue(object, key);
+  return _baseIsNative(value) ? value : undefined;
+}
+var _getNative = getNative;
+
+var defineProperty = (function() {
+  try {
+    var func = _getNative(Object, 'defineProperty');
+    func({}, '', {});
+    return func;
+  } catch (e) {}
+}());
+var _defineProperty = defineProperty;
+
+function baseAssignValue(object, key, value) {
+  if (key == '__proto__' && _defineProperty) {
+    _defineProperty(object, key, {
+      'configurable': true,
+      'enumerable': true,
+      'value': value,
+      'writable': true
+    });
+  } else {
+    object[key] = value;
+  }
+}
+var _baseAssignValue = baseAssignValue;
+
+function eq(value, other) {
+  return value === other || (value !== value && other !== other);
+}
+var eq_1 = eq;
+
+var objectProto$3 = Object.prototype;
+var hasOwnProperty$2 = objectProto$3.hasOwnProperty;
+function assignValue(object, key, value) {
+  var objValue = object[key];
+  if (!(hasOwnProperty$2.call(object, key) && eq_1(objValue, value)) ||
+      (value === undefined && !(key in object))) {
+    _baseAssignValue(object, key, value);
+  }
+}
+var _assignValue = assignValue;
+
+var isArray = Array.isArray;
+var isArray_1 = isArray;
+
+function isObjectLike(value) {
+  return value != null && typeof value == 'object';
+}
+var isObjectLike_1 = isObjectLike;
+
+var symbolTag = '[object Symbol]';
+function isSymbol(value) {
+  return typeof value == 'symbol' ||
+    (isObjectLike_1(value) && _baseGetTag(value) == symbolTag);
+}
+var isSymbol_1 = isSymbol;
+
+var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
+    reIsPlainProp = /^\w*$/;
+function isKey(value, object) {
+  if (isArray_1(value)) {
+    return false;
+  }
+  var type = typeof value;
+  if (type == 'number' || type == 'symbol' || type == 'boolean' ||
+      value == null || isSymbol_1(value)) {
+    return true;
+  }
+  return reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
+    (object != null && value in Object(object));
+}
+var _isKey = isKey;
+
+var nativeCreate = _getNative(Object, 'create');
+var _nativeCreate = nativeCreate;
+
+function hashClear() {
+  this.__data__ = _nativeCreate ? _nativeCreate(null) : {};
+  this.size = 0;
+}
+var _hashClear = hashClear;
+
+function hashDelete(key) {
+  var result = this.has(key) && delete this.__data__[key];
+  this.size -= result ? 1 : 0;
+  return result;
+}
+var _hashDelete = hashDelete;
+
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+var objectProto$4 = Object.prototype;
+var hasOwnProperty$3 = objectProto$4.hasOwnProperty;
+function hashGet(key) {
+  var data = this.__data__;
+  if (_nativeCreate) {
+    var result = data[key];
+    return result === HASH_UNDEFINED ? undefined : result;
+  }
+  return hasOwnProperty$3.call(data, key) ? data[key] : undefined;
+}
+var _hashGet = hashGet;
+
+var objectProto$5 = Object.prototype;
+var hasOwnProperty$4 = objectProto$5.hasOwnProperty;
+function hashHas(key) {
+  var data = this.__data__;
+  return _nativeCreate ? (data[key] !== undefined) : hasOwnProperty$4.call(data, key);
+}
+var _hashHas = hashHas;
+
+var HASH_UNDEFINED$1 = '__lodash_hash_undefined__';
+function hashSet(key, value) {
+  var data = this.__data__;
+  this.size += this.has(key) ? 0 : 1;
+  data[key] = (_nativeCreate && value === undefined) ? HASH_UNDEFINED$1 : value;
+  return this;
+}
+var _hashSet = hashSet;
+
+function Hash(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+Hash.prototype.clear = _hashClear;
+Hash.prototype['delete'] = _hashDelete;
+Hash.prototype.get = _hashGet;
+Hash.prototype.has = _hashHas;
+Hash.prototype.set = _hashSet;
+var _Hash = Hash;
+
+function listCacheClear() {
+  this.__data__ = [];
+  this.size = 0;
+}
+var _listCacheClear = listCacheClear;
+
+function assocIndexOf(array, key) {
+  var length = array.length;
+  while (length--) {
+    if (eq_1(array[length][0], key)) {
+      return length;
+    }
+  }
+  return -1;
+}
+var _assocIndexOf = assocIndexOf;
+
+var arrayProto = Array.prototype;
+var splice = arrayProto.splice;
+function listCacheDelete(key) {
+  var data = this.__data__,
+      index = _assocIndexOf(data, key);
+  if (index < 0) {
+    return false;
+  }
+  var lastIndex = data.length - 1;
+  if (index == lastIndex) {
+    data.pop();
+  } else {
+    splice.call(data, index, 1);
+  }
+  --this.size;
+  return true;
+}
+var _listCacheDelete = listCacheDelete;
+
+function listCacheGet(key) {
+  var data = this.__data__,
+      index = _assocIndexOf(data, key);
+  return index < 0 ? undefined : data[index][1];
+}
+var _listCacheGet = listCacheGet;
+
+function listCacheHas(key) {
+  return _assocIndexOf(this.__data__, key) > -1;
+}
+var _listCacheHas = listCacheHas;
+
+function listCacheSet(key, value) {
+  var data = this.__data__,
+      index = _assocIndexOf(data, key);
+  if (index < 0) {
+    ++this.size;
+    data.push([key, value]);
+  } else {
+    data[index][1] = value;
+  }
+  return this;
+}
+var _listCacheSet = listCacheSet;
+
+function ListCache(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+ListCache.prototype.clear = _listCacheClear;
+ListCache.prototype['delete'] = _listCacheDelete;
+ListCache.prototype.get = _listCacheGet;
+ListCache.prototype.has = _listCacheHas;
+ListCache.prototype.set = _listCacheSet;
+var _ListCache = ListCache;
+
+var Map = _getNative(_root, 'Map');
+var _Map = Map;
+
+function mapCacheClear() {
+  this.size = 0;
+  this.__data__ = {
+    'hash': new _Hash,
+    'map': new (_Map || _ListCache),
+    'string': new _Hash
+  };
+}
+var _mapCacheClear = mapCacheClear;
+
+function isKeyable(value) {
+  var type = typeof value;
+  return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
+    ? (value !== '__proto__')
+    : (value === null);
+}
+var _isKeyable = isKeyable;
+
+function getMapData(map, key) {
+  var data = map.__data__;
+  return _isKeyable(key)
+    ? data[typeof key == 'string' ? 'string' : 'hash']
+    : data.map;
+}
+var _getMapData = getMapData;
+
+function mapCacheDelete(key) {
+  var result = _getMapData(this, key)['delete'](key);
+  this.size -= result ? 1 : 0;
+  return result;
+}
+var _mapCacheDelete = mapCacheDelete;
+
+function mapCacheGet(key) {
+  return _getMapData(this, key).get(key);
+}
+var _mapCacheGet = mapCacheGet;
+
+function mapCacheHas(key) {
+  return _getMapData(this, key).has(key);
+}
+var _mapCacheHas = mapCacheHas;
+
+function mapCacheSet(key, value) {
+  var data = _getMapData(this, key),
+      size = data.size;
+  data.set(key, value);
+  this.size += data.size == size ? 0 : 1;
+  return this;
+}
+var _mapCacheSet = mapCacheSet;
+
+function MapCache(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+  this.clear();
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+}
+MapCache.prototype.clear = _mapCacheClear;
+MapCache.prototype['delete'] = _mapCacheDelete;
+MapCache.prototype.get = _mapCacheGet;
+MapCache.prototype.has = _mapCacheHas;
+MapCache.prototype.set = _mapCacheSet;
+var _MapCache = MapCache;
+
+var FUNC_ERROR_TEXT = 'Expected a function';
+function memoize(func, resolver) {
+  if (typeof func != 'function' || (resolver != null && typeof resolver != 'function')) {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+  var memoized = function() {
+    var args = arguments,
+        key = resolver ? resolver.apply(this, args) : args[0],
+        cache = memoized.cache;
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+    var result = func.apply(this, args);
+    memoized.cache = cache.set(key, result) || cache;
+    return result;
+  };
+  memoized.cache = new (memoize.Cache || _MapCache);
+  return memoized;
+}
+memoize.Cache = _MapCache;
+var memoize_1 = memoize;
+
+var MAX_MEMOIZE_SIZE = 500;
+function memoizeCapped(func) {
+  var result = memoize_1(func, function(key) {
+    if (cache.size === MAX_MEMOIZE_SIZE) {
+      cache.clear();
+    }
+    return key;
+  });
+  var cache = result.cache;
+  return result;
+}
+var _memoizeCapped = memoizeCapped;
+
+var rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+var reEscapeChar = /\\(\\)?/g;
+var stringToPath = _memoizeCapped(function(string) {
+  var result = [];
+  if (string.charCodeAt(0) === 46 ) {
+    result.push('');
+  }
+  string.replace(rePropName, function(match, number, quote, subString) {
+    result.push(quote ? subString.replace(reEscapeChar, '$1') : (number || match));
+  });
+  return result;
+});
+var _stringToPath = stringToPath;
+
+function arrayMap(array, iteratee) {
+  var index = -1,
+      length = array == null ? 0 : array.length,
+      result = Array(length);
+  while (++index < length) {
+    result[index] = iteratee(array[index], index, array);
+  }
+  return result;
+}
+var _arrayMap = arrayMap;
+
+var INFINITY = 1 / 0;
+var symbolProto = _Symbol ? _Symbol.prototype : undefined,
+    symbolToString = symbolProto ? symbolProto.toString : undefined;
+function baseToString(value) {
+  if (typeof value == 'string') {
+    return value;
+  }
+  if (isArray_1(value)) {
+    return _arrayMap(value, baseToString) + '';
+  }
+  if (isSymbol_1(value)) {
+    return symbolToString ? symbolToString.call(value) : '';
+  }
+  var result = (value + '');
+  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
+}
+var _baseToString = baseToString;
+
+function toString(value) {
+  return value == null ? '' : _baseToString(value);
+}
+var toString_1 = toString;
+
+function castPath(value, object) {
+  if (isArray_1(value)) {
+    return value;
+  }
+  return _isKey(value, object) ? [value] : _stringToPath(toString_1(value));
+}
+var _castPath = castPath;
+
+var MAX_SAFE_INTEGER = 9007199254740991;
+var reIsUint = /^(?:0|[1-9]\d*)$/;
+function isIndex(value, length) {
+  var type = typeof value;
+  length = length == null ? MAX_SAFE_INTEGER : length;
+  return !!length &&
+    (type == 'number' ||
+      (type != 'symbol' && reIsUint.test(value))) &&
+        (value > -1 && value % 1 == 0 && value < length);
+}
+var _isIndex = isIndex;
+
+var INFINITY$1 = 1 / 0;
+function toKey(value) {
+  if (typeof value == 'string' || isSymbol_1(value)) {
+    return value;
+  }
+  var result = (value + '');
+  return (result == '0' && (1 / value) == -INFINITY$1) ? '-0' : result;
+}
+var _toKey = toKey;
+
+function baseSet(object, path, value, customizer) {
+  if (!isObject_1(object)) {
+    return object;
+  }
+  path = _castPath(path, object);
+  var index = -1,
+      length = path.length,
+      lastIndex = length - 1,
+      nested = object;
+  while (nested != null && ++index < length) {
+    var key = _toKey(path[index]),
+        newValue = value;
+    if (index != lastIndex) {
+      var objValue = nested[key];
+      newValue = customizer ? customizer(objValue, key, nested) : undefined;
+      if (newValue === undefined) {
+        newValue = isObject_1(objValue)
+          ? objValue
+          : (_isIndex(path[index + 1]) ? [] : {});
+      }
+    }
+    _assignValue(nested, key, newValue);
+    nested = nested[key];
+  }
+  return object;
+}
+var _baseSet = baseSet;
+
+function set(object, path, value) {
+  return object == null ? object : _baseSet(object, path, value);
+}
+var set_1 = set;
+
+function createBaseFor(fromRight) {
+  return function(object, iteratee, keysFunc) {
+    var index = -1,
+        iterable = Object(object),
+        props = keysFunc(object),
+        length = props.length;
+    while (length--) {
+      var key = props[fromRight ? length : ++index];
+      if (iteratee(iterable[key], key, iterable) === false) {
+        break;
+      }
+    }
+    return object;
+  };
+}
+var _createBaseFor = createBaseFor;
+
+var baseFor = _createBaseFor();
+var _baseFor = baseFor;
+
+function baseTimes(n, iteratee) {
+  var index = -1,
+      result = Array(n);
+  while (++index < n) {
+    result[index] = iteratee(index);
+  }
+  return result;
+}
+var _baseTimes = baseTimes;
+
+var argsTag = '[object Arguments]';
+function baseIsArguments(value) {
+  return isObjectLike_1(value) && _baseGetTag(value) == argsTag;
+}
+var _baseIsArguments = baseIsArguments;
+
+var objectProto$6 = Object.prototype;
+var hasOwnProperty$5 = objectProto$6.hasOwnProperty;
+var propertyIsEnumerable = objectProto$6.propertyIsEnumerable;
+var isArguments = _baseIsArguments(function() { return arguments; }()) ? _baseIsArguments : function(value) {
+  return isObjectLike_1(value) && hasOwnProperty$5.call(value, 'callee') &&
+    !propertyIsEnumerable.call(value, 'callee');
+};
+var isArguments_1 = isArguments;
+
+function stubFalse() {
+  return false;
+}
+var stubFalse_1 = stubFalse;
+
+var isBuffer_1 = createCommonjsModule(function (module, exports) {
+var freeExports =  exports && !exports.nodeType && exports;
+var freeModule = freeExports && 'object' == 'object' && module && !module.nodeType && module;
+var moduleExports = freeModule && freeModule.exports === freeExports;
+var Buffer = moduleExports ? _root.Buffer : undefined;
+var nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined;
+var isBuffer = nativeIsBuffer || stubFalse_1;
+module.exports = isBuffer;
 });
 
-/***/ })
-/******/ ]);
+var MAX_SAFE_INTEGER$1 = 9007199254740991;
+function isLength(value) {
+  return typeof value == 'number' &&
+    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER$1;
+}
+var isLength_1 = isLength;
+
+var argsTag$1 = '[object Arguments]',
+    arrayTag = '[object Array]',
+    boolTag = '[object Boolean]',
+    dateTag = '[object Date]',
+    errorTag = '[object Error]',
+    funcTag$1 = '[object Function]',
+    mapTag = '[object Map]',
+    numberTag = '[object Number]',
+    objectTag = '[object Object]',
+    regexpTag = '[object RegExp]',
+    setTag = '[object Set]',
+    stringTag = '[object String]',
+    weakMapTag = '[object WeakMap]';
+var arrayBufferTag = '[object ArrayBuffer]',
+    dataViewTag = '[object DataView]',
+    float32Tag = '[object Float32Array]',
+    float64Tag = '[object Float64Array]',
+    int8Tag = '[object Int8Array]',
+    int16Tag = '[object Int16Array]',
+    int32Tag = '[object Int32Array]',
+    uint8Tag = '[object Uint8Array]',
+    uint8ClampedTag = '[object Uint8ClampedArray]',
+    uint16Tag = '[object Uint16Array]',
+    uint32Tag = '[object Uint32Array]';
+var typedArrayTags = {};
+typedArrayTags[float32Tag] = typedArrayTags[float64Tag] =
+typedArrayTags[int8Tag] = typedArrayTags[int16Tag] =
+typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] =
+typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] =
+typedArrayTags[uint32Tag] = true;
+typedArrayTags[argsTag$1] = typedArrayTags[arrayTag] =
+typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] =
+typedArrayTags[dataViewTag] = typedArrayTags[dateTag] =
+typedArrayTags[errorTag] = typedArrayTags[funcTag$1] =
+typedArrayTags[mapTag] = typedArrayTags[numberTag] =
+typedArrayTags[objectTag] = typedArrayTags[regexpTag] =
+typedArrayTags[setTag] = typedArrayTags[stringTag] =
+typedArrayTags[weakMapTag] = false;
+function baseIsTypedArray(value) {
+  return isObjectLike_1(value) &&
+    isLength_1(value.length) && !!typedArrayTags[_baseGetTag(value)];
+}
+var _baseIsTypedArray = baseIsTypedArray;
+
+function baseUnary(func) {
+  return function(value) {
+    return func(value);
+  };
+}
+var _baseUnary = baseUnary;
+
+var _nodeUtil = createCommonjsModule(function (module, exports) {
+var freeExports =  exports && !exports.nodeType && exports;
+var freeModule = freeExports && 'object' == 'object' && module && !module.nodeType && module;
+var moduleExports = freeModule && freeModule.exports === freeExports;
+var freeProcess = moduleExports && _freeGlobal.process;
+var nodeUtil = (function() {
+  try {
+    var types = freeModule && freeModule.require && freeModule.require('util').types;
+    if (types) {
+      return types;
+    }
+    return freeProcess && freeProcess.binding && freeProcess.binding('util');
+  } catch (e) {}
+}());
+module.exports = nodeUtil;
 });
 
-var computedBehavior = unwrapExports(miniprogram_dist);
+var nodeIsTypedArray = _nodeUtil && _nodeUtil.isTypedArray;
+var isTypedArray = nodeIsTypedArray ? _baseUnary(nodeIsTypedArray) : _baseIsTypedArray;
+var isTypedArray_1 = isTypedArray;
 
-// 注册组件
+var objectProto$7 = Object.prototype;
+var hasOwnProperty$6 = objectProto$7.hasOwnProperty;
+function arrayLikeKeys(value, inherited) {
+  var isArr = isArray_1(value),
+      isArg = !isArr && isArguments_1(value),
+      isBuff = !isArr && !isArg && isBuffer_1(value),
+      isType = !isArr && !isArg && !isBuff && isTypedArray_1(value),
+      skipIndexes = isArr || isArg || isBuff || isType,
+      result = skipIndexes ? _baseTimes(value.length, String) : [],
+      length = result.length;
+  for (var key in value) {
+    if ((inherited || hasOwnProperty$6.call(value, key)) &&
+        !(skipIndexes && (
+           key == 'length' ||
+           (isBuff && (key == 'offset' || key == 'parent')) ||
+           (isType && (key == 'buffer' || key == 'byteLength' || key == 'byteOffset')) ||
+           _isIndex(key, length)
+        ))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+var _arrayLikeKeys = arrayLikeKeys;
+
+var objectProto$8 = Object.prototype;
+function isPrototype(value) {
+  var Ctor = value && value.constructor,
+      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto$8;
+  return value === proto;
+}
+var _isPrototype = isPrototype;
+
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+var _overArg = overArg;
+
+var nativeKeys = _overArg(Object.keys, Object);
+var _nativeKeys = nativeKeys;
+
+var objectProto$9 = Object.prototype;
+var hasOwnProperty$7 = objectProto$9.hasOwnProperty;
+function baseKeys(object) {
+  if (!_isPrototype(object)) {
+    return _nativeKeys(object);
+  }
+  var result = [];
+  for (var key in Object(object)) {
+    if (hasOwnProperty$7.call(object, key) && key != 'constructor') {
+      result.push(key);
+    }
+  }
+  return result;
+}
+var _baseKeys = baseKeys;
+
+function isArrayLike(value) {
+  return value != null && isLength_1(value.length) && !isFunction_1(value);
+}
+var isArrayLike_1 = isArrayLike;
+
+function keys(object) {
+  return isArrayLike_1(object) ? _arrayLikeKeys(object) : _baseKeys(object);
+}
+var keys_1 = keys;
+
+function baseForOwn(object, iteratee) {
+  return object && _baseFor(object, iteratee, keys_1);
+}
+var _baseForOwn = baseForOwn;
+
+function stackClear() {
+  this.__data__ = new _ListCache;
+  this.size = 0;
+}
+var _stackClear = stackClear;
+
+function stackDelete(key) {
+  var data = this.__data__,
+      result = data['delete'](key);
+  this.size = data.size;
+  return result;
+}
+var _stackDelete = stackDelete;
+
+function stackGet(key) {
+  return this.__data__.get(key);
+}
+var _stackGet = stackGet;
+
+function stackHas(key) {
+  return this.__data__.has(key);
+}
+var _stackHas = stackHas;
+
+var LARGE_ARRAY_SIZE = 200;
+function stackSet(key, value) {
+  var data = this.__data__;
+  if (data instanceof _ListCache) {
+    var pairs = data.__data__;
+    if (!_Map || (pairs.length < LARGE_ARRAY_SIZE - 1)) {
+      pairs.push([key, value]);
+      this.size = ++data.size;
+      return this;
+    }
+    data = this.__data__ = new _MapCache(pairs);
+  }
+  data.set(key, value);
+  this.size = data.size;
+  return this;
+}
+var _stackSet = stackSet;
+
+function Stack(entries) {
+  var data = this.__data__ = new _ListCache(entries);
+  this.size = data.size;
+}
+Stack.prototype.clear = _stackClear;
+Stack.prototype['delete'] = _stackDelete;
+Stack.prototype.get = _stackGet;
+Stack.prototype.has = _stackHas;
+Stack.prototype.set = _stackSet;
+var _Stack = Stack;
+
+var HASH_UNDEFINED$2 = '__lodash_hash_undefined__';
+function setCacheAdd(value) {
+  this.__data__.set(value, HASH_UNDEFINED$2);
+  return this;
+}
+var _setCacheAdd = setCacheAdd;
+
+function setCacheHas(value) {
+  return this.__data__.has(value);
+}
+var _setCacheHas = setCacheHas;
+
+function SetCache(values) {
+  var index = -1,
+      length = values == null ? 0 : values.length;
+  this.__data__ = new _MapCache;
+  while (++index < length) {
+    this.add(values[index]);
+  }
+}
+SetCache.prototype.add = SetCache.prototype.push = _setCacheAdd;
+SetCache.prototype.has = _setCacheHas;
+var _SetCache = SetCache;
+
+function arraySome(array, predicate) {
+  var index = -1,
+      length = array == null ? 0 : array.length;
+  while (++index < length) {
+    if (predicate(array[index], index, array)) {
+      return true;
+    }
+  }
+  return false;
+}
+var _arraySome = arraySome;
+
+function cacheHas(cache, key) {
+  return cache.has(key);
+}
+var _cacheHas = cacheHas;
+
+var COMPARE_PARTIAL_FLAG = 1,
+    COMPARE_UNORDERED_FLAG = 2;
+function equalArrays(array, other, bitmask, customizer, equalFunc, stack) {
+  var isPartial = bitmask & COMPARE_PARTIAL_FLAG,
+      arrLength = array.length,
+      othLength = other.length;
+  if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
+    return false;
+  }
+  var stacked = stack.get(array);
+  if (stacked && stack.get(other)) {
+    return stacked == other;
+  }
+  var index = -1,
+      result = true,
+      seen = (bitmask & COMPARE_UNORDERED_FLAG) ? new _SetCache : undefined;
+  stack.set(array, other);
+  stack.set(other, array);
+  while (++index < arrLength) {
+    var arrValue = array[index],
+        othValue = other[index];
+    if (customizer) {
+      var compared = isPartial
+        ? customizer(othValue, arrValue, index, other, array, stack)
+        : customizer(arrValue, othValue, index, array, other, stack);
+    }
+    if (compared !== undefined) {
+      if (compared) {
+        continue;
+      }
+      result = false;
+      break;
+    }
+    if (seen) {
+      if (!_arraySome(other, function(othValue, othIndex) {
+            if (!_cacheHas(seen, othIndex) &&
+                (arrValue === othValue || equalFunc(arrValue, othValue, bitmask, customizer, stack))) {
+              return seen.push(othIndex);
+            }
+          })) {
+        result = false;
+        break;
+      }
+    } else if (!(
+          arrValue === othValue ||
+            equalFunc(arrValue, othValue, bitmask, customizer, stack)
+        )) {
+      result = false;
+      break;
+    }
+  }
+  stack['delete'](array);
+  stack['delete'](other);
+  return result;
+}
+var _equalArrays = equalArrays;
+
+var Uint8Array = _root.Uint8Array;
+var _Uint8Array = Uint8Array;
+
+function mapToArray(map) {
+  var index = -1,
+      result = Array(map.size);
+  map.forEach(function(value, key) {
+    result[++index] = [key, value];
+  });
+  return result;
+}
+var _mapToArray = mapToArray;
+
+function setToArray(set) {
+  var index = -1,
+      result = Array(set.size);
+  set.forEach(function(value) {
+    result[++index] = value;
+  });
+  return result;
+}
+var _setToArray = setToArray;
+
+var COMPARE_PARTIAL_FLAG$1 = 1,
+    COMPARE_UNORDERED_FLAG$1 = 2;
+var boolTag$1 = '[object Boolean]',
+    dateTag$1 = '[object Date]',
+    errorTag$1 = '[object Error]',
+    mapTag$1 = '[object Map]',
+    numberTag$1 = '[object Number]',
+    regexpTag$1 = '[object RegExp]',
+    setTag$1 = '[object Set]',
+    stringTag$1 = '[object String]',
+    symbolTag$1 = '[object Symbol]';
+var arrayBufferTag$1 = '[object ArrayBuffer]',
+    dataViewTag$1 = '[object DataView]';
+var symbolProto$1 = _Symbol ? _Symbol.prototype : undefined,
+    symbolValueOf = symbolProto$1 ? symbolProto$1.valueOf : undefined;
+function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
+  switch (tag) {
+    case dataViewTag$1:
+      if ((object.byteLength != other.byteLength) ||
+          (object.byteOffset != other.byteOffset)) {
+        return false;
+      }
+      object = object.buffer;
+      other = other.buffer;
+    case arrayBufferTag$1:
+      if ((object.byteLength != other.byteLength) ||
+          !equalFunc(new _Uint8Array(object), new _Uint8Array(other))) {
+        return false;
+      }
+      return true;
+    case boolTag$1:
+    case dateTag$1:
+    case numberTag$1:
+      return eq_1(+object, +other);
+    case errorTag$1:
+      return object.name == other.name && object.message == other.message;
+    case regexpTag$1:
+    case stringTag$1:
+      return object == (other + '');
+    case mapTag$1:
+      var convert = _mapToArray;
+    case setTag$1:
+      var isPartial = bitmask & COMPARE_PARTIAL_FLAG$1;
+      convert || (convert = _setToArray);
+      if (object.size != other.size && !isPartial) {
+        return false;
+      }
+      var stacked = stack.get(object);
+      if (stacked) {
+        return stacked == other;
+      }
+      bitmask |= COMPARE_UNORDERED_FLAG$1;
+      stack.set(object, other);
+      var result = _equalArrays(convert(object), convert(other), bitmask, customizer, equalFunc, stack);
+      stack['delete'](object);
+      return result;
+    case symbolTag$1:
+      if (symbolValueOf) {
+        return symbolValueOf.call(object) == symbolValueOf.call(other);
+      }
+  }
+  return false;
+}
+var _equalByTag = equalByTag;
+
+function arrayPush(array, values) {
+  var index = -1,
+      length = values.length,
+      offset = array.length;
+  while (++index < length) {
+    array[offset + index] = values[index];
+  }
+  return array;
+}
+var _arrayPush = arrayPush;
+
+function baseGetAllKeys(object, keysFunc, symbolsFunc) {
+  var result = keysFunc(object);
+  return isArray_1(object) ? result : _arrayPush(result, symbolsFunc(object));
+}
+var _baseGetAllKeys = baseGetAllKeys;
+
+function arrayFilter(array, predicate) {
+  var index = -1,
+      length = array == null ? 0 : array.length,
+      resIndex = 0,
+      result = [];
+  while (++index < length) {
+    var value = array[index];
+    if (predicate(value, index, array)) {
+      result[resIndex++] = value;
+    }
+  }
+  return result;
+}
+var _arrayFilter = arrayFilter;
+
+function stubArray() {
+  return [];
+}
+var stubArray_1 = stubArray;
+
+var objectProto$a = Object.prototype;
+var propertyIsEnumerable$1 = objectProto$a.propertyIsEnumerable;
+var nativeGetSymbols = Object.getOwnPropertySymbols;
+var getSymbols = !nativeGetSymbols ? stubArray_1 : function(object) {
+  if (object == null) {
+    return [];
+  }
+  object = Object(object);
+  return _arrayFilter(nativeGetSymbols(object), function(symbol) {
+    return propertyIsEnumerable$1.call(object, symbol);
+  });
+};
+var _getSymbols = getSymbols;
+
+function getAllKeys(object) {
+  return _baseGetAllKeys(object, keys_1, _getSymbols);
+}
+var _getAllKeys = getAllKeys;
+
+var COMPARE_PARTIAL_FLAG$2 = 1;
+var objectProto$b = Object.prototype;
+var hasOwnProperty$8 = objectProto$b.hasOwnProperty;
+function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
+  var isPartial = bitmask & COMPARE_PARTIAL_FLAG$2,
+      objProps = _getAllKeys(object),
+      objLength = objProps.length,
+      othProps = _getAllKeys(other),
+      othLength = othProps.length;
+  if (objLength != othLength && !isPartial) {
+    return false;
+  }
+  var index = objLength;
+  while (index--) {
+    var key = objProps[index];
+    if (!(isPartial ? key in other : hasOwnProperty$8.call(other, key))) {
+      return false;
+    }
+  }
+  var stacked = stack.get(object);
+  if (stacked && stack.get(other)) {
+    return stacked == other;
+  }
+  var result = true;
+  stack.set(object, other);
+  stack.set(other, object);
+  var skipCtor = isPartial;
+  while (++index < objLength) {
+    key = objProps[index];
+    var objValue = object[key],
+        othValue = other[key];
+    if (customizer) {
+      var compared = isPartial
+        ? customizer(othValue, objValue, key, other, object, stack)
+        : customizer(objValue, othValue, key, object, other, stack);
+    }
+    if (!(compared === undefined
+          ? (objValue === othValue || equalFunc(objValue, othValue, bitmask, customizer, stack))
+          : compared
+        )) {
+      result = false;
+      break;
+    }
+    skipCtor || (skipCtor = key == 'constructor');
+  }
+  if (result && !skipCtor) {
+    var objCtor = object.constructor,
+        othCtor = other.constructor;
+    if (objCtor != othCtor &&
+        ('constructor' in object && 'constructor' in other) &&
+        !(typeof objCtor == 'function' && objCtor instanceof objCtor &&
+          typeof othCtor == 'function' && othCtor instanceof othCtor)) {
+      result = false;
+    }
+  }
+  stack['delete'](object);
+  stack['delete'](other);
+  return result;
+}
+var _equalObjects = equalObjects;
+
+var DataView = _getNative(_root, 'DataView');
+var _DataView = DataView;
+
+var Promise = _getNative(_root, 'Promise');
+var _Promise = Promise;
+
+var Set = _getNative(_root, 'Set');
+var _Set = Set;
+
+var WeakMap = _getNative(_root, 'WeakMap');
+var _WeakMap = WeakMap;
+
+var mapTag$2 = '[object Map]',
+    objectTag$1 = '[object Object]',
+    promiseTag = '[object Promise]',
+    setTag$2 = '[object Set]',
+    weakMapTag$1 = '[object WeakMap]';
+var dataViewTag$2 = '[object DataView]';
+var dataViewCtorString = _toSource(_DataView),
+    mapCtorString = _toSource(_Map),
+    promiseCtorString = _toSource(_Promise),
+    setCtorString = _toSource(_Set),
+    weakMapCtorString = _toSource(_WeakMap);
+var getTag = _baseGetTag;
+if ((_DataView && getTag(new _DataView(new ArrayBuffer(1))) != dataViewTag$2) ||
+    (_Map && getTag(new _Map) != mapTag$2) ||
+    (_Promise && getTag(_Promise.resolve()) != promiseTag) ||
+    (_Set && getTag(new _Set) != setTag$2) ||
+    (_WeakMap && getTag(new _WeakMap) != weakMapTag$1)) {
+  getTag = function(value) {
+    var result = _baseGetTag(value),
+        Ctor = result == objectTag$1 ? value.constructor : undefined,
+        ctorString = Ctor ? _toSource(Ctor) : '';
+    if (ctorString) {
+      switch (ctorString) {
+        case dataViewCtorString: return dataViewTag$2;
+        case mapCtorString: return mapTag$2;
+        case promiseCtorString: return promiseTag;
+        case setCtorString: return setTag$2;
+        case weakMapCtorString: return weakMapTag$1;
+      }
+    }
+    return result;
+  };
+}
+var _getTag = getTag;
+
+var COMPARE_PARTIAL_FLAG$3 = 1;
+var argsTag$2 = '[object Arguments]',
+    arrayTag$1 = '[object Array]',
+    objectTag$2 = '[object Object]';
+var objectProto$c = Object.prototype;
+var hasOwnProperty$9 = objectProto$c.hasOwnProperty;
+function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
+  var objIsArr = isArray_1(object),
+      othIsArr = isArray_1(other),
+      objTag = objIsArr ? arrayTag$1 : _getTag(object),
+      othTag = othIsArr ? arrayTag$1 : _getTag(other);
+  objTag = objTag == argsTag$2 ? objectTag$2 : objTag;
+  othTag = othTag == argsTag$2 ? objectTag$2 : othTag;
+  var objIsObj = objTag == objectTag$2,
+      othIsObj = othTag == objectTag$2,
+      isSameTag = objTag == othTag;
+  if (isSameTag && isBuffer_1(object)) {
+    if (!isBuffer_1(other)) {
+      return false;
+    }
+    objIsArr = true;
+    objIsObj = false;
+  }
+  if (isSameTag && !objIsObj) {
+    stack || (stack = new _Stack);
+    return (objIsArr || isTypedArray_1(object))
+      ? _equalArrays(object, other, bitmask, customizer, equalFunc, stack)
+      : _equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
+  }
+  if (!(bitmask & COMPARE_PARTIAL_FLAG$3)) {
+    var objIsWrapped = objIsObj && hasOwnProperty$9.call(object, '__wrapped__'),
+        othIsWrapped = othIsObj && hasOwnProperty$9.call(other, '__wrapped__');
+    if (objIsWrapped || othIsWrapped) {
+      var objUnwrapped = objIsWrapped ? object.value() : object,
+          othUnwrapped = othIsWrapped ? other.value() : other;
+      stack || (stack = new _Stack);
+      return equalFunc(objUnwrapped, othUnwrapped, bitmask, customizer, stack);
+    }
+  }
+  if (!isSameTag) {
+    return false;
+  }
+  stack || (stack = new _Stack);
+  return _equalObjects(object, other, bitmask, customizer, equalFunc, stack);
+}
+var _baseIsEqualDeep = baseIsEqualDeep;
+
+function baseIsEqual(value, other, bitmask, customizer, stack) {
+  if (value === other) {
+    return true;
+  }
+  if (value == null || other == null || (!isObjectLike_1(value) && !isObjectLike_1(other))) {
+    return value !== value && other !== other;
+  }
+  return _baseIsEqualDeep(value, other, bitmask, customizer, baseIsEqual, stack);
+}
+var _baseIsEqual = baseIsEqual;
+
+var COMPARE_PARTIAL_FLAG$4 = 1,
+    COMPARE_UNORDERED_FLAG$2 = 2;
+function baseIsMatch(object, source, matchData, customizer) {
+  var index = matchData.length,
+      length = index,
+      noCustomizer = !customizer;
+  if (object == null) {
+    return !length;
+  }
+  object = Object(object);
+  while (index--) {
+    var data = matchData[index];
+    if ((noCustomizer && data[2])
+          ? data[1] !== object[data[0]]
+          : !(data[0] in object)
+        ) {
+      return false;
+    }
+  }
+  while (++index < length) {
+    data = matchData[index];
+    var key = data[0],
+        objValue = object[key],
+        srcValue = data[1];
+    if (noCustomizer && data[2]) {
+      if (objValue === undefined && !(key in object)) {
+        return false;
+      }
+    } else {
+      var stack = new _Stack;
+      if (customizer) {
+        var result = customizer(objValue, srcValue, key, object, source, stack);
+      }
+      if (!(result === undefined
+            ? _baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG$4 | COMPARE_UNORDERED_FLAG$2, customizer, stack)
+            : result
+          )) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+var _baseIsMatch = baseIsMatch;
+
+function isStrictComparable(value) {
+  return value === value && !isObject_1(value);
+}
+var _isStrictComparable = isStrictComparable;
+
+function getMatchData(object) {
+  var result = keys_1(object),
+      length = result.length;
+  while (length--) {
+    var key = result[length],
+        value = object[key];
+    result[length] = [key, value, _isStrictComparable(value)];
+  }
+  return result;
+}
+var _getMatchData = getMatchData;
+
+function matchesStrictComparable(key, srcValue) {
+  return function(object) {
+    if (object == null) {
+      return false;
+    }
+    return object[key] === srcValue &&
+      (srcValue !== undefined || (key in Object(object)));
+  };
+}
+var _matchesStrictComparable = matchesStrictComparable;
+
+function baseMatches(source) {
+  var matchData = _getMatchData(source);
+  if (matchData.length == 1 && matchData[0][2]) {
+    return _matchesStrictComparable(matchData[0][0], matchData[0][1]);
+  }
+  return function(object) {
+    return object === source || _baseIsMatch(object, source, matchData);
+  };
+}
+var _baseMatches = baseMatches;
+
+function baseGet(object, path) {
+  path = _castPath(path, object);
+  var index = 0,
+      length = path.length;
+  while (object != null && index < length) {
+    object = object[_toKey(path[index++])];
+  }
+  return (index && index == length) ? object : undefined;
+}
+var _baseGet = baseGet;
+
+function get(object, path, defaultValue) {
+  var result = object == null ? undefined : _baseGet(object, path);
+  return result === undefined ? defaultValue : result;
+}
+var get_1 = get;
+
+function baseHasIn(object, key) {
+  return object != null && key in Object(object);
+}
+var _baseHasIn = baseHasIn;
+
+function hasPath(object, path, hasFunc) {
+  path = _castPath(path, object);
+  var index = -1,
+      length = path.length,
+      result = false;
+  while (++index < length) {
+    var key = _toKey(path[index]);
+    if (!(result = object != null && hasFunc(object, key))) {
+      break;
+    }
+    object = object[key];
+  }
+  if (result || ++index != length) {
+    return result;
+  }
+  length = object == null ? 0 : object.length;
+  return !!length && isLength_1(length) && _isIndex(key, length) &&
+    (isArray_1(object) || isArguments_1(object));
+}
+var _hasPath = hasPath;
+
+function hasIn(object, path) {
+  return object != null && _hasPath(object, path, _baseHasIn);
+}
+var hasIn_1 = hasIn;
+
+var COMPARE_PARTIAL_FLAG$5 = 1,
+    COMPARE_UNORDERED_FLAG$3 = 2;
+function baseMatchesProperty(path, srcValue) {
+  if (_isKey(path) && _isStrictComparable(srcValue)) {
+    return _matchesStrictComparable(_toKey(path), srcValue);
+  }
+  return function(object) {
+    var objValue = get_1(object, path);
+    return (objValue === undefined && objValue === srcValue)
+      ? hasIn_1(object, path)
+      : _baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG$5 | COMPARE_UNORDERED_FLAG$3);
+  };
+}
+var _baseMatchesProperty = baseMatchesProperty;
+
+function identity(value) {
+  return value;
+}
+var identity_1 = identity;
+
+function baseProperty(key) {
+  return function(object) {
+    return object == null ? undefined : object[key];
+  };
+}
+var _baseProperty = baseProperty;
+
+function basePropertyDeep(path) {
+  return function(object) {
+    return _baseGet(object, path);
+  };
+}
+var _basePropertyDeep = basePropertyDeep;
+
+function property(path) {
+  return _isKey(path) ? _baseProperty(_toKey(path)) : _basePropertyDeep(path);
+}
+var property_1 = property;
+
+function baseIteratee(value) {
+  if (typeof value == 'function') {
+    return value;
+  }
+  if (value == null) {
+    return identity_1;
+  }
+  if (typeof value == 'object') {
+    return isArray_1(value)
+      ? _baseMatchesProperty(value[0], value[1])
+      : _baseMatches(value);
+  }
+  return property_1(value);
+}
+var _baseIteratee = baseIteratee;
+
+function mapKeys(object, iteratee) {
+  var result = {};
+  iteratee = _baseIteratee(iteratee);
+  _baseForOwn(object, function(value, key, object) {
+    _baseAssignValue(result, iteratee(value, key, object), value);
+  });
+  return result;
+}
+var mapKeys_1 = mapKeys;
+
+function assignMergeValue(object, key, value) {
+  if ((value !== undefined && !eq_1(object[key], value)) ||
+      (value === undefined && !(key in object))) {
+    _baseAssignValue(object, key, value);
+  }
+}
+var _assignMergeValue = assignMergeValue;
+
+var _cloneBuffer = createCommonjsModule(function (module, exports) {
+var freeExports =  exports && !exports.nodeType && exports;
+var freeModule = freeExports && 'object' == 'object' && module && !module.nodeType && module;
+var moduleExports = freeModule && freeModule.exports === freeExports;
+var Buffer = moduleExports ? _root.Buffer : undefined,
+    allocUnsafe = Buffer ? Buffer.allocUnsafe : undefined;
+function cloneBuffer(buffer, isDeep) {
+  if (isDeep) {
+    return buffer.slice();
+  }
+  var length = buffer.length,
+      result = allocUnsafe ? allocUnsafe(length) : new buffer.constructor(length);
+  buffer.copy(result);
+  return result;
+}
+module.exports = cloneBuffer;
+});
+
+function cloneArrayBuffer(arrayBuffer) {
+  var result = new arrayBuffer.constructor(arrayBuffer.byteLength);
+  new _Uint8Array(result).set(new _Uint8Array(arrayBuffer));
+  return result;
+}
+var _cloneArrayBuffer = cloneArrayBuffer;
+
+function cloneTypedArray(typedArray, isDeep) {
+  var buffer = isDeep ? _cloneArrayBuffer(typedArray.buffer) : typedArray.buffer;
+  return new typedArray.constructor(buffer, typedArray.byteOffset, typedArray.length);
+}
+var _cloneTypedArray = cloneTypedArray;
+
+function copyArray(source, array) {
+  var index = -1,
+      length = source.length;
+  array || (array = Array(length));
+  while (++index < length) {
+    array[index] = source[index];
+  }
+  return array;
+}
+var _copyArray = copyArray;
+
+var objectCreate = Object.create;
+var baseCreate = (function() {
+  function object() {}
+  return function(proto) {
+    if (!isObject_1(proto)) {
+      return {};
+    }
+    if (objectCreate) {
+      return objectCreate(proto);
+    }
+    object.prototype = proto;
+    var result = new object;
+    object.prototype = undefined;
+    return result;
+  };
+}());
+var _baseCreate = baseCreate;
+
+var getPrototype = _overArg(Object.getPrototypeOf, Object);
+var _getPrototype = getPrototype;
+
+function initCloneObject(object) {
+  return (typeof object.constructor == 'function' && !_isPrototype(object))
+    ? _baseCreate(_getPrototype(object))
+    : {};
+}
+var _initCloneObject = initCloneObject;
+
+function isArrayLikeObject(value) {
+  return isObjectLike_1(value) && isArrayLike_1(value);
+}
+var isArrayLikeObject_1 = isArrayLikeObject;
+
+var objectTag$3 = '[object Object]';
+var funcProto$2 = Function.prototype,
+    objectProto$d = Object.prototype;
+var funcToString$2 = funcProto$2.toString;
+var hasOwnProperty$a = objectProto$d.hasOwnProperty;
+var objectCtorString = funcToString$2.call(Object);
+function isPlainObject(value) {
+  if (!isObjectLike_1(value) || _baseGetTag(value) != objectTag$3) {
+    return false;
+  }
+  var proto = _getPrototype(value);
+  if (proto === null) {
+    return true;
+  }
+  var Ctor = hasOwnProperty$a.call(proto, 'constructor') && proto.constructor;
+  return typeof Ctor == 'function' && Ctor instanceof Ctor &&
+    funcToString$2.call(Ctor) == objectCtorString;
+}
+var isPlainObject_1 = isPlainObject;
+
+function safeGet(object, key) {
+  if (key == '__proto__') {
+    return;
+  }
+  return object[key];
+}
+var _safeGet = safeGet;
+
+function copyObject(source, props, object, customizer) {
+  var isNew = !object;
+  object || (object = {});
+  var index = -1,
+      length = props.length;
+  while (++index < length) {
+    var key = props[index];
+    var newValue = customizer
+      ? customizer(object[key], source[key], key, object, source)
+      : undefined;
+    if (newValue === undefined) {
+      newValue = source[key];
+    }
+    if (isNew) {
+      _baseAssignValue(object, key, newValue);
+    } else {
+      _assignValue(object, key, newValue);
+    }
+  }
+  return object;
+}
+var _copyObject = copyObject;
+
+function nativeKeysIn(object) {
+  var result = [];
+  if (object != null) {
+    for (var key in Object(object)) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+var _nativeKeysIn = nativeKeysIn;
+
+var objectProto$e = Object.prototype;
+var hasOwnProperty$b = objectProto$e.hasOwnProperty;
+function baseKeysIn(object) {
+  if (!isObject_1(object)) {
+    return _nativeKeysIn(object);
+  }
+  var isProto = _isPrototype(object),
+      result = [];
+  for (var key in object) {
+    if (!(key == 'constructor' && (isProto || !hasOwnProperty$b.call(object, key)))) {
+      result.push(key);
+    }
+  }
+  return result;
+}
+var _baseKeysIn = baseKeysIn;
+
+function keysIn(object) {
+  return isArrayLike_1(object) ? _arrayLikeKeys(object, true) : _baseKeysIn(object);
+}
+var keysIn_1 = keysIn;
+
+function toPlainObject(value) {
+  return _copyObject(value, keysIn_1(value));
+}
+var toPlainObject_1 = toPlainObject;
+
+function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, stack) {
+  var objValue = _safeGet(object, key),
+      srcValue = _safeGet(source, key),
+      stacked = stack.get(srcValue);
+  if (stacked) {
+    _assignMergeValue(object, key, stacked);
+    return;
+  }
+  var newValue = customizer
+    ? customizer(objValue, srcValue, (key + ''), object, source, stack)
+    : undefined;
+  var isCommon = newValue === undefined;
+  if (isCommon) {
+    var isArr = isArray_1(srcValue),
+        isBuff = !isArr && isBuffer_1(srcValue),
+        isTyped = !isArr && !isBuff && isTypedArray_1(srcValue);
+    newValue = srcValue;
+    if (isArr || isBuff || isTyped) {
+      if (isArray_1(objValue)) {
+        newValue = objValue;
+      }
+      else if (isArrayLikeObject_1(objValue)) {
+        newValue = _copyArray(objValue);
+      }
+      else if (isBuff) {
+        isCommon = false;
+        newValue = _cloneBuffer(srcValue, true);
+      }
+      else if (isTyped) {
+        isCommon = false;
+        newValue = _cloneTypedArray(srcValue, true);
+      }
+      else {
+        newValue = [];
+      }
+    }
+    else if (isPlainObject_1(srcValue) || isArguments_1(srcValue)) {
+      newValue = objValue;
+      if (isArguments_1(objValue)) {
+        newValue = toPlainObject_1(objValue);
+      }
+      else if (!isObject_1(objValue) || isFunction_1(objValue)) {
+        newValue = _initCloneObject(srcValue);
+      }
+    }
+    else {
+      isCommon = false;
+    }
+  }
+  if (isCommon) {
+    stack.set(srcValue, newValue);
+    mergeFunc(newValue, srcValue, srcIndex, customizer, stack);
+    stack['delete'](srcValue);
+  }
+  _assignMergeValue(object, key, newValue);
+}
+var _baseMergeDeep = baseMergeDeep;
+
+function baseMerge(object, source, srcIndex, customizer, stack) {
+  if (object === source) {
+    return;
+  }
+  _baseFor(source, function(srcValue, key) {
+    if (isObject_1(srcValue)) {
+      stack || (stack = new _Stack);
+      _baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
+    }
+    else {
+      var newValue = customizer
+        ? customizer(_safeGet(object, key), srcValue, (key + ''), object, source, stack)
+        : undefined;
+      if (newValue === undefined) {
+        newValue = srcValue;
+      }
+      _assignMergeValue(object, key, newValue);
+    }
+  }, keysIn_1);
+}
+var _baseMerge = baseMerge;
+
+function apply(func, thisArg, args) {
+  switch (args.length) {
+    case 0: return func.call(thisArg);
+    case 1: return func.call(thisArg, args[0]);
+    case 2: return func.call(thisArg, args[0], args[1]);
+    case 3: return func.call(thisArg, args[0], args[1], args[2]);
+  }
+  return func.apply(thisArg, args);
+}
+var _apply = apply;
+
+var nativeMax = Math.max;
+function overRest(func, start, transform) {
+  start = nativeMax(start === undefined ? (func.length - 1) : start, 0);
+  return function() {
+    var args = arguments,
+        index = -1,
+        length = nativeMax(args.length - start, 0),
+        array = Array(length);
+    while (++index < length) {
+      array[index] = args[start + index];
+    }
+    index = -1;
+    var otherArgs = Array(start + 1);
+    while (++index < start) {
+      otherArgs[index] = args[index];
+    }
+    otherArgs[start] = transform(array);
+    return _apply(func, this, otherArgs);
+  };
+}
+var _overRest = overRest;
+
+function constant(value) {
+  return function() {
+    return value;
+  };
+}
+var constant_1 = constant;
+
+var baseSetToString = !_defineProperty ? identity_1 : function(func, string) {
+  return _defineProperty(func, 'toString', {
+    'configurable': true,
+    'enumerable': false,
+    'value': constant_1(string),
+    'writable': true
+  });
+};
+var _baseSetToString = baseSetToString;
+
+var HOT_COUNT = 800,
+    HOT_SPAN = 16;
+var nativeNow = Date.now;
+function shortOut(func) {
+  var count = 0,
+      lastCalled = 0;
+  return function() {
+    var stamp = nativeNow(),
+        remaining = HOT_SPAN - (stamp - lastCalled);
+    lastCalled = stamp;
+    if (remaining > 0) {
+      if (++count >= HOT_COUNT) {
+        return arguments[0];
+      }
+    } else {
+      count = 0;
+    }
+    return func.apply(undefined, arguments);
+  };
+}
+var _shortOut = shortOut;
+
+var setToString = _shortOut(_baseSetToString);
+var _setToString = setToString;
+
+function baseRest(func, start) {
+  return _setToString(_overRest(func, start, identity_1), func + '');
+}
+var _baseRest = baseRest;
+
+function isIterateeCall(value, index, object) {
+  if (!isObject_1(object)) {
+    return false;
+  }
+  var type = typeof index;
+  if (type == 'number'
+        ? (isArrayLike_1(object) && _isIndex(index, object.length))
+        : (type == 'string' && index in object)
+      ) {
+    return eq_1(object[index], value);
+  }
+  return false;
+}
+var _isIterateeCall = isIterateeCall;
+
+function createAssigner(assigner) {
+  return _baseRest(function(object, sources) {
+    var index = -1,
+        length = sources.length,
+        customizer = length > 1 ? sources[length - 1] : undefined,
+        guard = length > 2 ? sources[2] : undefined;
+    customizer = (assigner.length > 3 && typeof customizer == 'function')
+      ? (length--, customizer)
+      : undefined;
+    if (guard && _isIterateeCall(sources[0], sources[1], guard)) {
+      customizer = length < 3 ? undefined : customizer;
+      length = 1;
+    }
+    object = Object(object);
+    while (++index < length) {
+      var source = sources[index];
+      if (source) {
+        assigner(object, source, index, customizer);
+      }
+    }
+    return object;
+  });
+}
+var _createAssigner = createAssigner;
+
+var merge = _createAssigner(function(object, source, srcIndex) {
+  _baseMerge(object, source, srcIndex);
+});
+var merge_1 = merge;
+
+function initOptions(options) {
+    const app = getApp();
+    if (!app) return options;
+    const store = app.$store = merge_1({}, app.$store, options.$store);
+    options.data = options.data || {};
+    options.data.$store = store;
+    return options;
+}
+function injectSetStore() {
+    const vm = this;
+    function $setStore(...args) {
+        const obj = args[0] || {};
+        Object.keys(obj).forEach(key => {
+            set_1(vm.$app.$store, key, obj[key]);
+        });
+        return vm.$app.$emit('$setStore', ...args);
+    }
+    vm.$setStore = $setStore;
+}
+function register() {
+    const vm = this;
+    if (!vm.$app) return;
+    function setStoreHandler(obj, callback) {
+        return vm.setData(
+            mapKeys_1(obj, (value, key) =>
+                ['$store', key].join(/^\[/.test(key) ? '' : '.')),
+            callback,
+        );
+    }
+    vm.__setStoreHandler = setStoreHandler;
+    vm.$app.$on('$setStore', setStoreHandler);
+    injectSetStore.call(this);
+}
+function unregister() {
+    const vm = this;
+    if (!vm.__setStoreHandler) return;
+    vm.$app.$off('$setStore', vm.__setStoreHandler);
+}
+var store = {
+    initOptions,
+    injectSetStore,
+    register,
+    unregister,
+};
+
+function mitt(all                 ) {
+	all = all || Object.create(null);
+	return {
+		on: function on(type        , handler              ) {
+			(all[type] || (all[type] = [])).push(handler);
+		},
+		off: function off(type        , handler              ) {
+			if (all[type]) {
+				all[type].splice(all[type].indexOf(handler) >>> 0, 1);
+			}
+		},
+		emit: function emit(type        , evt     ) {
+			(all[type] || []).slice().map(function (handler) { handler(evt); });
+			(all['*'] || []).slice().map(function (handler) { handler(type, evt); });
+		}
+	};
+}
+
+const emitter = mitt();
+
+function injectSetData() {
+    if (this.__setData) return;
+    const __setData = this.__setData = this.setData;
+    function $setData(data, callback) {
+        __setData.call(this, data, callback);
+    }
+    this.setData = this.$setData = $setData;
+}
+function injectAppInstance() {
+    this.$app = this.$constructor === 'App' ? this : getApp();
+}
+function injectPageInstance() {
+    function getCurrentPage() {
+        const pages = getCurrentPages();
+        return pages[pages.length - 1];
+    }
+    this.$page = this.$constructor === 'Page' ? this : getCurrentPage();
+}
+function injectEmitter() {
+    if (this.$constructor === 'App') {
+        this.$on = emitter.on;
+        this.$off = emitter.off;
+        this.$emit = emitter.emit;
+    } else if (this.$constructor === 'Page') {
+        const pageEmitter = mitt();
+        this.__emitter = pageEmitter;
+        this.$on = pageEmitter.on;
+        this.$off = pageEmitter.off;
+        this.$emit = pageEmitter.emit;
+    }
+}
+var injects = {
+    injectSetData,
+    injectAppInstance,
+    injectPageInstance,
+    injectEmitter,
+};
+
+const $constructor = 'App';
+function _App(options = {}) {
+    options.$constructor = $constructor;
+    const { onLaunch } = options;
+    function _onLaunch(...args) {
+        this.__options = options;
+        this.$constructor = $constructor;
+        injects.injectAppInstance.call(this);
+        injects.injectEmitter.call(this);
+        store.injectSetStore.call(this);
+        onLaunch && onLaunch.call(this, ...args);
+    }
+    options.onLaunch = _onLaunch;
+    return App(options);
+}
+
+function injectSetContext() {
+    const vm = this;
+    function $setContext(...args) {
+        const obj = args[0] || {};
+        Object.keys(obj).forEach(key => {
+            set_1(vm.$page.$context, key, obj[key]);
+        });
+        return vm.$page.$emit('$setContext', ...args);
+    }
+    vm.$setContext = $setContext;
+}
+function register$1() {
+    const vm = this;
+    if (!vm.$page) return;
+    vm.$page.$context = merge_1({}, vm.$page.$context, vm.__options.$context);
+    vm.__setData({ $context: vm.$page.$context });
+    function setContextHandler(obj, callback) {
+        return vm.setData(
+            mapKeys_1(obj, (value, key) =>
+                ['$context', key].join(/^\[/.test(key) ? '' : '.')),
+            callback,
+        );
+    }
+    vm.__setContextHandler = setContextHandler;
+    vm.$page.$on('$setContext', setContextHandler);
+    injectSetContext.call(this);
+}
+function unregister$1() {
+    const vm = this;
+    if (!vm.__setContextHandler) return;
+    vm.$page.$off('$setContext', vm.__setContextHandler);
+}
+var context = {
+    injectSetContext,
+    register: register$1,
+    unregister: unregister$1,
+};
+
+const $constructor$1 = 'Page';
+function _Page(options = {}) {
+    options.$constructor = $constructor$1;
+    options = store.initOptions(options);
+    const { onLoad, onUnload } = options;
+    function _onLoad(...args) {
+        this.__options = options;
+        this.$constructor = $constructor$1;
+        injects.injectAppInstance.call(this);
+        injects.injectPageInstance.call(this);
+        injects.injectSetData.call(this);
+        injects.injectEmitter.call(this);
+        store.register.call(this);
+        context.register.call(this);
+        onLoad && onLoad.call(this, ...args);
+    }
+    function _onUnload(...args) {
+        store.unregister.call(this);
+        context.unregister.call(this);
+        onUnload && onUnload.call(this, ...args);
+    }
+    options.onLoad = _onLoad;
+    options.onUnload = _onUnload;
+    return Page(options);
+}
+
+const computed = Behavior({
+    lifetimes: {
+        created() {
+        }
+    },
+    definitionFilter(defFields) {
+        defFields.properties = defFields.properties || {};
+        defFields.data = defFields.data || {};
+        defFields.$computed = defFields.$computed || {};
+        defFields.observers = defFields.observers || {};
+        Object.keys(defFields.properties).forEach(key => {
+            const prop = defFields.properties[key];
+            if (typeof prop === 'object'
+                && Object.prototype.hasOwnProperty.call(prop, 'value')) {
+                defFields.data[key] = prop.value;
+            }
+        });
+        const observerMap = {};
+        Object.keys(defFields.$computed).forEach(key => {
+            const obj = defFields.$computed[key];
+            let config = {};
+            if (isFunction_1(obj)) {
+                config.get = obj;
+            } else if (isObject_1(obj)) {
+                config = obj;
+            }
+            if (!config.get) return;
+            const dependPath = Array.isArray(config.depend) ? config.depend : [];
+            const observerKey = dependPath.length ? dependPath.join(',') : '__none__';
+            observerMap[observerKey] = observerMap[observerKey] || {};
+            observerMap[observerKey][key] = config.get;
+            try {
+                defFields.data[key] = config.get.apply(defFields,
+                    dependPath.map(p => get_1(defFields.data, p)));
+            } catch (err) { console.error(`computed ${key} error`, err); }
+        });
+        Object.keys(observerMap).forEach(observerKey => {
+            if (observerKey === '__none__') return;
+            const computeds = observerMap[observerKey];
+            const __observerHandler = defFields.observers[observerKey];
+            function observerHandler(...args) {
+                const vm = this;
+                this.__setData(
+                    Object.keys(computeds).reduce((obj, computedKey) => {
+                        obj[computedKey] = computeds[computedKey].apply(vm, args);
+                        return obj;
+                    }, {})
+                );
+                __observerHandler && __observerHandler.call(vm, ...args);
+            }
+            defFields.observers[observerKey] = observerHandler;
+        });
+    },
+});
+
+const $constructor$2 = 'Component';
 function _Component(options = {}) {
-    /* mixin Behaviors */
+    options.$constructor = $constructor$2;
+    options = store.initOptions(options);
     options.behaviors = options.behaviors || [];
-    // computed Behaviors
-    // https://github.com/wechat-miniprogram/computed
-    options.behaviors.push(computedBehavior);
-
+    options.behaviors.push(computed);
+    options.lifetimes = options.lifetimes || {};
+    const {
+        created,
+        attached,
+        ready,
+        detached
+    } = options.lifetimes;
+    function _created(...args) {
+        this.__options = options;
+        this.$constructor = $constructor$2;
+        injects.injectAppInstance.call(this);
+        injects.injectSetData.call(this);
+        injects.injectEmitter.call(this);
+        store.register.call(this);
+        created && created.call(this, ...args);
+    }
+    function _attached(...args) {
+        injects.injectPageInstance.call(this);
+        attached && attached.call(this, ...args);
+    }
+    function _ready(...args) {
+        context.register.call(this);
+        ready && ready.call(this, ...args);
+    }
+    function _detached(...args) {
+        store.unregister.call(this);
+        context.unregister.call(this);
+        detached && detached.call(this, ...args);
+    }
+    options.lifetimes.created = _created;
+    options.lifetimes.attached = _attached;
+    options.lifetimes.ready = _ready;
+    options.lifetimes.detached = _detached;
     return Component(options);
 }
 
@@ -284,21 +2097,14 @@ var classnames = createCommonjsModule(function (module) {
   Licensed under the MIT License (MIT), see
   http://jedwatson.github.io/classnames
 */
-/* global define */
-
 (function () {
-
 	var hasOwn = {}.hasOwnProperty;
-
 	function classNames () {
 		var classes = [];
-
 		for (var i = 0; i < arguments.length; i++) {
 			var arg = arguments[i];
 			if (!arg) continue;
-
 			var argType = typeof arg;
-
 			if (argType === 'string' || argType === 'number') {
 				classes.push(arg);
 			} else if (Array.isArray(arg) && arg.length) {
@@ -314,11 +2120,9 @@ var classnames = createCommonjsModule(function (module) {
 				}
 			}
 		}
-
 		return classes.join(' ');
 	}
-
-	if (module.exports) {
+	if ( module.exports) {
 		classNames.default = classNames;
 		module.exports = classNames;
 	} else {
@@ -327,22 +2131,9 @@ var classnames = createCommonjsModule(function (module) {
 }());
 });
 
-/**
- * A specialized version of `_.reduce` for arrays without support for
- * iteratee shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @param {*} [accumulator] The initial value.
- * @param {boolean} [initAccum] Specify using the first element of `array` as
- *  the initial value.
- * @returns {*} Returns the accumulated value.
- */
 function arrayReduce(array, iteratee, accumulator, initAccum) {
   var index = -1,
       length = array == null ? 0 : array.length;
-
   if (initAccum && length) {
     accumulator = array[++index];
   }
@@ -351,27 +2142,16 @@ function arrayReduce(array, iteratee, accumulator, initAccum) {
   }
   return accumulator;
 }
-
 var _arrayReduce = arrayReduce;
 
-/**
- * The base implementation of `_.propertyOf` without support for deep paths.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Function} Returns the new accessor function.
- */
 function basePropertyOf(object) {
   return function(key) {
     return object == null ? undefined : object[key];
   };
 }
-
 var _basePropertyOf = basePropertyOf;
 
-/** Used to map Latin Unicode letters to basic Latin letters. */
 var deburredLetters = {
-  // Latin-1 Supplement block.
   '\xc0': 'A',  '\xc1': 'A', '\xc2': 'A', '\xc3': 'A', '\xc4': 'A', '\xc5': 'A',
   '\xe0': 'a',  '\xe1': 'a', '\xe2': 'a', '\xe3': 'a', '\xe4': 'a', '\xe5': 'a',
   '\xc7': 'C',  '\xe7': 'c',
@@ -389,7 +2169,6 @@ var deburredLetters = {
   '\xc6': 'Ae', '\xe6': 'ae',
   '\xde': 'Th', '\xfe': 'th',
   '\xdf': 'ss',
-  // Latin Extended-A block.
   '\u0100': 'A',  '\u0102': 'A', '\u0104': 'A',
   '\u0101': 'a',  '\u0103': 'a', '\u0105': 'a',
   '\u0106': 'C',  '\u0108': 'C', '\u010a': 'C', '\u010c': 'C',
@@ -426,372 +2205,34 @@ var deburredLetters = {
   '\u0152': 'Oe', '\u0153': 'oe',
   '\u0149': "'n", '\u017f': 's'
 };
-
-/**
- * Used by `_.deburr` to convert Latin-1 Supplement and Latin Extended-A
- * letters to basic Latin letters.
- *
- * @private
- * @param {string} letter The matched letter to deburr.
- * @returns {string} Returns the deburred letter.
- */
 var deburrLetter = _basePropertyOf(deburredLetters);
-
 var _deburrLetter = deburrLetter;
 
-/** Detect free variable `global` from Node.js. */
-var freeGlobal = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
-
-var _freeGlobal = freeGlobal;
-
-/** Detect free variable `self`. */
-var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root = _freeGlobal || freeSelf || Function('return this')();
-
-var _root = root;
-
-/** Built-in value references. */
-var Symbol$1 = _root.Symbol;
-
-var _Symbol = Symbol$1;
-
-/**
- * A specialized version of `_.map` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */
-function arrayMap(array, iteratee) {
-  var index = -1,
-      length = array == null ? 0 : array.length,
-      result = Array(length);
-
-  while (++index < length) {
-    result[index] = iteratee(array[index], index, array);
-  }
-  return result;
-}
-
-var _arrayMap = arrayMap;
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-var isArray_1 = isArray;
-
-/** Used for built-in method references. */
-var objectProto = Object.prototype;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty = objectProto.hasOwnProperty;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString = objectProto.toString;
-
-/** Built-in value references. */
-var symToStringTag = _Symbol ? _Symbol.toStringTag : undefined;
-
-/**
- * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the raw `toStringTag`.
- */
-function getRawTag(value) {
-  var isOwn = hasOwnProperty.call(value, symToStringTag),
-      tag = value[symToStringTag];
-
-  try {
-    value[symToStringTag] = undefined;
-    var unmasked = true;
-  } catch (e) {}
-
-  var result = nativeObjectToString.call(value);
-  if (unmasked) {
-    if (isOwn) {
-      value[symToStringTag] = tag;
-    } else {
-      delete value[symToStringTag];
-    }
-  }
-  return result;
-}
-
-var _getRawTag = getRawTag;
-
-/** Used for built-in method references. */
-var objectProto$1 = Object.prototype;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var nativeObjectToString$1 = objectProto$1.toString;
-
-/**
- * Converts `value` to a string using `Object.prototype.toString`.
- *
- * @private
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- */
-function objectToString(value) {
-  return nativeObjectToString$1.call(value);
-}
-
-var _objectToString = objectToString;
-
-/** `Object#toString` result references. */
-var nullTag = '[object Null]',
-    undefinedTag = '[object Undefined]';
-
-/** Built-in value references. */
-var symToStringTag$1 = _Symbol ? _Symbol.toStringTag : undefined;
-
-/**
- * The base implementation of `getTag` without fallbacks for buggy environments.
- *
- * @private
- * @param {*} value The value to query.
- * @returns {string} Returns the `toStringTag`.
- */
-function baseGetTag(value) {
-  if (value == null) {
-    return value === undefined ? undefinedTag : nullTag;
-  }
-  return (symToStringTag$1 && symToStringTag$1 in Object(value))
-    ? _getRawTag(value)
-    : _objectToString(value);
-}
-
-var _baseGetTag = baseGetTag;
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike(value) {
-  return value != null && typeof value == 'object';
-}
-
-var isObjectLike_1 = isObjectLike;
-
-/** `Object#toString` result references. */
-var symbolTag = '[object Symbol]';
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike_1(value) && _baseGetTag(value) == symbolTag);
-}
-
-var isSymbol_1 = isSymbol;
-
-/** Used as references for various `Number` constants. */
-var INFINITY = 1 / 0;
-
-/** Used to convert symbols to primitives and strings. */
-var symbolProto = _Symbol ? _Symbol.prototype : undefined,
-    symbolToString = symbolProto ? symbolProto.toString : undefined;
-
-/**
- * The base implementation of `_.toString` which doesn't convert nullish
- * values to empty strings.
- *
- * @private
- * @param {*} value The value to process.
- * @returns {string} Returns the string.
- */
-function baseToString(value) {
-  // Exit early for strings to avoid a performance hit in some environments.
-  if (typeof value == 'string') {
-    return value;
-  }
-  if (isArray_1(value)) {
-    // Recursively convert values (susceptible to call stack limits).
-    return _arrayMap(value, baseToString) + '';
-  }
-  if (isSymbol_1(value)) {
-    return symbolToString ? symbolToString.call(value) : '';
-  }
-  var result = (value + '');
-  return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
-}
-
-var _baseToString = baseToString;
-
-/**
- * Converts `value` to a string. An empty string is returned for `null`
- * and `undefined` values. The sign of `-0` is preserved.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to convert.
- * @returns {string} Returns the converted string.
- * @example
- *
- * _.toString(null);
- * // => ''
- *
- * _.toString(-0);
- * // => '-0'
- *
- * _.toString([1, 2, 3]);
- * // => '1,2,3'
- */
-function toString(value) {
-  return value == null ? '' : _baseToString(value);
-}
-
-var toString_1 = toString;
-
-/** Used to match Latin Unicode letters (excluding mathematical operators). */
 var reLatin = /[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g;
-
-/** Used to compose unicode character classes. */
 var rsComboMarksRange = '\\u0300-\\u036f',
     reComboHalfMarksRange = '\\ufe20-\\ufe2f',
     rsComboSymbolsRange = '\\u20d0-\\u20ff',
     rsComboRange = rsComboMarksRange + reComboHalfMarksRange + rsComboSymbolsRange;
-
-/** Used to compose unicode capture groups. */
 var rsCombo = '[' + rsComboRange + ']';
-
-/**
- * Used to match [combining diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks) and
- * [combining diacritical marks for symbols](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks_for_Symbols).
- */
 var reComboMark = RegExp(rsCombo, 'g');
-
-/**
- * Deburrs `string` by converting
- * [Latin-1 Supplement](https://en.wikipedia.org/wiki/Latin-1_Supplement_(Unicode_block)#Character_table)
- * and [Latin Extended-A](https://en.wikipedia.org/wiki/Latin_Extended-A)
- * letters to basic Latin letters and removing
- * [combining diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks).
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category String
- * @param {string} [string=''] The string to deburr.
- * @returns {string} Returns the deburred string.
- * @example
- *
- * _.deburr('déjà vu');
- * // => 'deja vu'
- */
 function deburr(string) {
   string = toString_1(string);
   return string && string.replace(reLatin, _deburrLetter).replace(reComboMark, '');
 }
-
 var deburr_1 = deburr;
 
-/** Used to match words composed of alphanumeric characters. */
 var reAsciiWord = /[^\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]+/g;
-
-/**
- * Splits an ASCII `string` into an array of its words.
- *
- * @private
- * @param {string} The string to inspect.
- * @returns {Array} Returns the words of `string`.
- */
 function asciiWords(string) {
   return string.match(reAsciiWord) || [];
 }
-
 var _asciiWords = asciiWords;
 
-/** Used to detect strings that need a more robust regexp to match words. */
 var reHasUnicodeWord = /[a-z][A-Z]|[A-Z]{2}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/;
-
-/**
- * Checks if `string` contains a word composed of Unicode symbols.
- *
- * @private
- * @param {string} string The string to inspect.
- * @returns {boolean} Returns `true` if a word is found, else `false`.
- */
 function hasUnicodeWord(string) {
   return reHasUnicodeWord.test(string);
 }
-
 var _hasUnicodeWord = hasUnicodeWord;
 
-/** Used to compose unicode character classes. */
 var rsAstralRange = '\\ud800-\\udfff',
     rsComboMarksRange$1 = '\\u0300-\\u036f',
     reComboHalfMarksRange$1 = '\\ufe20-\\ufe2f',
@@ -806,8 +2247,6 @@ var rsAstralRange = '\\ud800-\\udfff',
     rsUpperRange = 'A-Z\\xc0-\\xd6\\xd8-\\xde',
     rsVarRange = '\\ufe0e\\ufe0f',
     rsBreakRange = rsMathOpRange + rsNonCharRange + rsPunctuationRange + rsSpaceRange;
-
-/** Used to compose unicode capture groups. */
 var rsApos = "['\u2019]",
     rsBreak = '[' + rsBreakRange + ']',
     rsCombo$1 = '[' + rsComboRange$1 + ']',
@@ -822,8 +2261,6 @@ var rsApos = "['\u2019]",
     rsSurrPair = '[\\ud800-\\udbff][\\udc00-\\udfff]',
     rsUpper = '[' + rsUpperRange + ']',
     rsZWJ = '\\u200d';
-
-/** Used to compose unicode regexes. */
 var rsMiscLower = '(?:' + rsLower + '|' + rsMisc + ')',
     rsMiscUpper = '(?:' + rsUpper + '|' + rsMisc + ')',
     rsOptContrLower = '(?:' + rsApos + '(?:d|ll|m|re|s|t|ve))?',
@@ -835,8 +2272,6 @@ var rsMiscLower = '(?:' + rsLower + '|' + rsMisc + ')',
     rsOrdUpper = '\\d*(?:1ST|2ND|3RD|(?![123])\\dTH)(?=\\b|[a-z_])',
     rsSeq = rsOptVar + reOptMod + rsOptJoin,
     rsEmoji = '(?:' + [rsDingbat, rsRegional, rsSurrPair].join('|') + ')' + rsSeq;
-
-/** Used to match complex or compound words. */
 var reUnicodeWord = RegExp([
   rsUpper + '?' + rsLower + '+' + rsOptContrLower + '(?=' + [rsBreak, rsUpper, '$'].join('|') + ')',
   rsMiscUpper + '+' + rsOptContrUpper + '(?=' + [rsBreak, rsUpper + rsMiscLower, '$'].join('|') + ')',
@@ -847,100 +2282,35 @@ var reUnicodeWord = RegExp([
   rsDigits,
   rsEmoji
 ].join('|'), 'g');
-
-/**
- * Splits a Unicode `string` into an array of its words.
- *
- * @private
- * @param {string} The string to inspect.
- * @returns {Array} Returns the words of `string`.
- */
 function unicodeWords(string) {
   return string.match(reUnicodeWord) || [];
 }
-
 var _unicodeWords = unicodeWords;
 
-/**
- * Splits `string` into an array of its words.
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category String
- * @param {string} [string=''] The string to inspect.
- * @param {RegExp|string} [pattern] The pattern to match words.
- * @param- {Object} [guard] Enables use as an iteratee for methods like `_.map`.
- * @returns {Array} Returns the words of `string`.
- * @example
- *
- * _.words('fred, barney, & pebbles');
- * // => ['fred', 'barney', 'pebbles']
- *
- * _.words('fred, barney, & pebbles', /[^, ]+/g);
- * // => ['fred', 'barney', '&', 'pebbles']
- */
 function words(string, pattern, guard) {
   string = toString_1(string);
   pattern = guard ? undefined : pattern;
-
   if (pattern === undefined) {
     return _hasUnicodeWord(string) ? _unicodeWords(string) : _asciiWords(string);
   }
   return string.match(pattern) || [];
 }
-
 var words_1 = words;
 
-/** Used to compose unicode capture groups. */
 var rsApos$1 = "['\u2019]";
-
-/** Used to match apostrophes. */
 var reApos = RegExp(rsApos$1, 'g');
-
-/**
- * Creates a function like `_.camelCase`.
- *
- * @private
- * @param {Function} callback The function to combine each word.
- * @returns {Function} Returns the new compounder function.
- */
 function createCompounder(callback) {
   return function(string) {
     return _arrayReduce(words_1(deburr_1(string).replace(reApos, '')), callback, '');
   };
 }
-
 var _createCompounder = createCompounder;
 
-/**
- * Converts `string` to
- * [kebab case](https://en.wikipedia.org/wiki/Letter_case#Special_case_styles).
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category String
- * @param {string} [string=''] The string to convert.
- * @returns {string} Returns the kebab cased string.
- * @example
- *
- * _.kebabCase('Foo Bar');
- * // => 'foo-bar'
- *
- * _.kebabCase('fooBar');
- * // => 'foo-bar'
- *
- * _.kebabCase('__FOO_BAR__');
- * // => 'foo-bar'
- */
 var kebabCase = _createCompounder(function(result, word, index) {
   return result + (index ? '-' : '') + word.toLowerCase();
 });
-
 var kebabCase_1 = kebabCase;
 
-// 将对象形式 style 转换为行内字符串
 function inlineStyles(bindingStyle = {}) {
     return Object.keys(bindingStyle)
         .map(key => (key && bindingStyle[key]
@@ -950,10 +2320,9 @@ function inlineStyles(bindingStyle = {}) {
 }
 
 var utils = {
-    // 类名连接 https://github.com/JedWatson/classnames
     classNames: classnames,
-    // 行内样式连接
-    inlineStyles
+    inlineStyles,
+    mitt,
 };
 
 var index = {
@@ -961,6 +2330,9 @@ var index = {
     App: _App,
     Page: _Page,
     Component: _Component,
+    on: emitter.on,
+    off: emitter.off,
+    emit: emitter.emit,
     utils,
 };
 
