@@ -16,6 +16,13 @@
 import mp from 'mp-helper';
 // 注册 App
 mp.App({
+    // 全局数据 store (mp-helper 增强API)
+    // 将注入到所有页面/组件的 data.$store 内, 慎重存储重要数据
+    // 通过 this.$setStore 设置全局数据可使页面响应, 用法与一致 setData
+    $store: {
+
+    },
+
     /* 生命周期 */
     // 小程序初始化完成时触发，全局只触发一次
     onLaunch(options) {},

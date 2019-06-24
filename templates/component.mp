@@ -33,7 +33,7 @@ mp.Component({
 
     },
     // 组件的计算数据 (mp-helper 增强API)
-    computed: {
+    $computed: {
 
     },
     // 组件数据字段监听器
@@ -65,10 +65,7 @@ mp.Component({
     /* Methods */
     methods: {
 
-    },
-
-    /* Others */
-
+    }
 });
 </script>
 
