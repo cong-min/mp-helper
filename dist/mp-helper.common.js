@@ -1,6 +1,6 @@
 'use strict';
 
-var version = "0.3.2";
+var version = "0.3.3";
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -2135,7 +2135,7 @@ function promiser(fn) {
     return function (...args) {
         const options = args[0] || {};
         return new Promise((resolve, reject) => fn({
-            options,
+            ...options,
             success(...ress) {
                 options.success && options.success(...ress);
                 resolve(...ress);
