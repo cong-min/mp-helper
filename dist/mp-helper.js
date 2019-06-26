@@ -1,4 +1,4 @@
-var version = "0.2.2";
+var version = "0.3.2";
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -1133,8 +1133,8 @@ var _equalObjects = equalObjects;
 var DataView = _getNative(_root, 'DataView');
 var _DataView = DataView;
 
-var Promise = _getNative(_root, 'Promise');
-var _Promise = Promise;
+var Promise$1 = _getNative(_root, 'Promise');
+var _Promise = Promise$1;
 
 var Set = _getNative(_root, 'Set');
 var _Set = Set;
@@ -2129,6 +2129,23 @@ var classnames = createCommonjsModule(function (module) {
 }());
 });
 
+function promiser(fn) {
+    return function (...args) {
+        const options = args[0] || {};
+        return new Promise((resolve, reject) => fn({
+            options,
+            success(...ress) {
+                options.success && options.success(...ress);
+                resolve(...ress);
+            },
+            fail(...errors) {
+                options.fail && options.fail(...errors);
+                reject(...errors);
+            }
+        }));
+    };
+}
+
 function arrayReduce(array, iteratee, accumulator, initAccum) {
   var index = -1,
       length = array == null ? 0 : array.length;
@@ -2318,6 +2335,7 @@ function inlineStyles(bindingStyle = {}) {
 }
 
 var utils = {
+    promiser,
     classNames: classnames,
     inlineStyles,
     mitt,
