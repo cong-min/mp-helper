@@ -1,4 +1,4 @@
-# 微信小程序轻量级组件化开发助手(类库)
+# 微信小程序轻量级组件化开发助手/类库
 
 [![mp-helper](https://img.shields.io/npm/v/mp-helper.svg?style=flat-square)](https://www.npmjs.com/package/mp-helper)
 
@@ -310,10 +310,25 @@ $computed: {
 
 ```js
 const {
+    promiser,
     classNames,
-    inlineStyles
+    inlineStyles,
 } = mp.utils;
 ```
+
+#### promiser(`nativeMethod`)
+
+- `nativeMethod`: 原生小程序 API 方法
+- 返回: 转换为 `Promise` 后的方法
+
+将原生方法转换为 `Promise` 方法，其中 `success` 属性转换为 `resolve`、`fail` 属性转换为 `reject`
+
+```js
+// 例子
+const login = promiser(wx.login);
+const res = await login();
+```
+
 
 #### classNames(`...`)
 
