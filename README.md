@@ -9,6 +9,7 @@ MP Helper 不是一个框架，而是基于小程序原生 MINA 框架的开发�
 - 使用 `.mp` 单文件页面组件化开发，内聚且耦合
 - 支持 `require` `import` 直接引入 npm 包依赖
 - `API` 语法增强，新增数据状态管理 `store` `context`、事件管理 `emitter`、计算数据 `computed` 等能力
+- 拓展工具集，包含小程序原生方法 Promise 化 `promiser` 、类名属性连接 `classNames`、行内样式连接 `inlineStyles` 等方法
 
 ### 特点
 
