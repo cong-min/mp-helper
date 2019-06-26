@@ -15,7 +15,9 @@ import mp from 'mp-helper';
 // 注册 Component
 mp.Component({
     // 配置项
-    options: {},
+    options: {
+        //addGlobalClass: false, // 是否支持全局样式
+    },
 
     // 引用组件混入
     //behaviors: [],
