@@ -1,6 +1,7 @@
-# 微信小程序轻量级组件化开发助手/类库
+# 微信小程序轻量型开发助手/增强类库
 
 [![mp-helper](https://img.shields.io/npm/v/mp-helper.svg?style=flat-square)](https://www.npmjs.com/package/mp-helper)
+[![CHANGELOG](https://img.shields.io/badge/CHANGELOG-yellow.svg?style=flat-square)](https://github.com/mcc108/mp-helper/releases)
 
 MP Helper 不是一个框架，而是基于小程序原生 MINA 框架的开发助手与语法增强类库
 
@@ -212,11 +213,11 @@ mp.Component({
 })
 ```
 
-#### 属性 `$store`
+#### 构造属性 `$store`
 
 用于存储全局数据，将注入到所有页面与组件的 `data.$store` 内, 因此需慎重存储重要的数据
 
-在 App/Page/Component 内都可通过 `this.$setStore` 方法设置全局数据使页面响应, 用法与一致 `this.setData`
+在 App/Page/Component 内都可通过 `this.$setStore` 实例方法设置全局数据使页面响应, 用法与一致 `this.setData`
 
 
 ### mp.Page(`options`)
@@ -231,11 +232,13 @@ mp.Page({
 
 > 若想将页面以自定义组件形式构造，可参见官方提供的方法 [使用 Component 构造器构造页面](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/component.html#使用-Component-构造器构造页面)
 
-#### 属性 `$context`
+Page 中可使用 `this.$app` 方法获取 app 实例
+
+#### 构造属性 `$context`
 
 用于存储当前页面上下文数据，将注入到当前页面及其所有组件的 `data.$context` 内, 跨页面不共享
 
-在 Page/Component 内都可通过 `this.$setContext` 方法设置当前页面上下文数据使页面响应, 用法与一致 `this.setData`
+在 Page/Component 内都可通过 `this.$setContext` 实例方法设置当前页面上下文数据使页面响应, 用法与一致 `this.setData`
 
 需注意的是，在 Component 内只能在 `ready` 生命周期后调用 `this.$setContext`
 
@@ -250,7 +253,9 @@ mp.Component({
 })
 ```
 
-#### 属性 `$computed`
+Component 中可使用 `this.$app` 方法获取 app 实例。在 `attached` 生命周期后，可使用 `this.$page` 方法获取所在 page 实例
+
+#### 构造属性 `$computed`
 
 ```js
 $computed: {
@@ -274,16 +279,21 @@ $computed: {
 计算属性最终将会注入至 `this.data` 内
 
 
+### 路由
+
+在 Page/Component 内都可通过 `this.$route` 实例属性获取当前的路由信息
+
+
 ### 事件监听
 
 - 全局事件监听（四种方式）：
   - `mp.on()`
-  - App 内: `this.$on()`
-  - Page 内: `this.$app.$on()`
-  - Component 内: `this.$app.$on()`
-- 单个页面实例事件监听：
-  - Page 内: `this.$on()`
-  - Component 内: `this.$page.$on()`
+  - App 实例方法: `this.$on()`
+  - Page 实例方法: `this.$app.$on()`
+  - Component 实例方法: `this.$app.$on()`
+- 单个当前页面内的事件监听：
+  - Page 实例方法: `this.$on()`
+  - Component 实例方法: `this.$page.$on()`
 
 #### on(`type`, `handler`)
 
@@ -314,6 +324,7 @@ const {
     promiser,
     classNames,
     inlineStyles,
+    urlString,
 } = mp.utils;
 ```
 
@@ -345,3 +356,31 @@ const res = await login();
 - 返回: `style` 字符串
 
 样式属性连接工具，将对象形式 `style` 转换为行内字符串
+
+
+#### urlString.stringify(`url`, `query`)
+
+- `url`: 基础 URL 字符串
+- `query`: 查询值参数对象，支持复杂 JSON 对象
+- 返回: 完整字符串形式 URL
+
+拼接页面地址工具，将 URL 与查询值参数信息拼接
+
+
+#### urlString.parse(`urlstring`)
+
+- `urlstring`: 字符串形式 URL
+- 返回: 解析后包含 `url` `query` 的对象
+
+解析页面地址工具，将字符串形式 URL 转换为对象形式
+
+> **工具库中内置的第三方工具：**
+> 
+> #### mitt
+> 
+> 事件管理器，即 [mitt](https://github.com/developit/mitt)
+> 
+> #### urlString.qs
+> 
+> URL `querystring` 查询值解析工具，即 [qs](https://github.com/ljharb/qs)
+
