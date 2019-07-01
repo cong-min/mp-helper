@@ -1,6 +1,6 @@
 {
   "name": "mp-helper",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "微信小程序轻量级组件化开发助手(库)",
   "license": "UNLICENSE",
   "main": "dist/mp-helper.js",
