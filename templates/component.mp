@@ -44,13 +44,13 @@ mp.Component({
     /* 组件生命周期 */
     lifetimes: {
         // 组件实例被创建
-        created(options) {},
+        //created() {},
         // 组件实例进入页面节点树
-        attached(options) {},
-        // 组件布局完成
+        //attached() {},
+        // 页面组件初始化完成
         ready() {},
         // 组件实例被移动到节点树另一个位置
-        moved() {},
+        //moved() {},
         // 组件实例被从页面节点树移除
         detached() {},
     },
@@ -72,7 +72,9 @@ mp.Component({
 </script>
 
 <style lang="less">
-.wrapper {
+component-tag/*component-tag 替换为组件标签名*/{
+    .wrapper {
 
+    }
 }
 </style>
