@@ -219,6 +219,7 @@ mp.Component({
 
 在 App/Page/Component 内都可通过 `this.$setStore` 实例方法设置全局数据使页面响应, 用法与一致 `this.setData`
 
+需注意的是，在 Component 内只能在 `attached` 生命周期后获取 `this.data.$store`、调用 `this.$setStore`
 
 ### mp.Page(`options`)
 
@@ -240,7 +241,7 @@ Page 中可使用 `this.$app` 方法获取 app 实例
 
 在 Page/Component 内都可通过 `this.$setContext` 实例方法设置当前页面上下文数据使页面响应, 用法与一致 `this.setData`
 
-需注意的是，在 Component 内只能在 `ready` 生命周期后调用 `this.$setContext`
+需注意的是，在 Component 内只能在 `ready` 生命周期后获取 `this.data.$context`、调用 `this.$setContext`
 
 
 ### mp.Component(`options`)
