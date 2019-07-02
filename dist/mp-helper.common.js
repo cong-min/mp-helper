@@ -1826,13 +1826,17 @@ function register() {
     const vm = this;
     if (!vm.$app) return;
     vm.$app.$store = merge_1({}, vm.$app.$store, vm.__options.$store);
-    vm.__setData({ $store: vm.$app.$store });
+    vm.__setData({
+        $store: vm.$app.$store,
+        _store: vm.$app.$store,
+    });
     function setStoreHandler(obj, callback) {
-        return vm.setData(
-            mapKeys_1(obj, (value, key) =>
+        return vm.setData({
+            ...mapKeys_1(obj, (value, key) =>
                 ['$store', key].join(/^\[/.test(key) ? '' : '.')),
-            callback,
-        );
+            ...mapKeys_1(obj, (value, key) =>
+                ['_store', key].join(/^\[/.test(key) ? '' : '.')),
+        }, callback);
     }
     vm.__setStoreHandler = setStoreHandler;
     vm.$app.$on('$setStore', setStoreHandler);
@@ -1938,13 +1942,17 @@ function register$1() {
     const vm = this;
     if (!vm.$page) return;
     vm.$page.$context = merge_1({}, vm.$page.$context, vm.__options.$context);
-    vm.__setData({ $context: vm.$page.$context });
+    vm.__setData({
+        $context: vm.$page.$context,
+        _context: vm.$page.$context
+    });
     function setContextHandler(obj, callback) {
-        return vm.setData(
-            mapKeys_1(obj, (value, key) =>
+        return vm.setData({
+            ...mapKeys_1(obj, (value, key) =>
                 ['$context', key].join(/^\[/.test(key) ? '' : '.')),
-            callback,
-        );
+            ...mapKeys_1(obj, (value, key) =>
+                ['_context', key].join(/^\[/.test(key) ? '' : '.')),
+        }, callback);
     }
     vm.__setContextHandler = setContextHandler;
     vm.$page.$on('$setContext', setContextHandler);

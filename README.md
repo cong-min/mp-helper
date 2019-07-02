@@ -209,18 +209,23 @@ $ mp-helper -c -w
 `options` 支持所有的 [原生 App 参数](https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html)，此外新增了：
 
 ```js
-mp.Component({
+mp.App({
     $store,
 })
 ```
 
 #### 构造属性 `$store`
 
+
 用于存储全局数据，将注入到所有页面与组件的 `data.$store` 内, 因此需慎重存储重要的数据
 
 在 App/Page/Component 内都可通过 `this.$setStore` 实例方法设置全局数据使页面响应, 用法与一致 `this.setData`
 
 需注意的是，在 Component 内只能在 `attached` 生命周期后获取 `this.data.$store`、调用 `this.$setStore`
+
+> 在低于 v2.7.4 的版本中 `$store` 不可用用于组件的 `$computed` 或 `observers`，兼容低版本需使用 `_store`
+> 
+> 原因为：[组件 observers 属性无法监听以 $ 开头的属性名](https://developers.weixin.qq.com/community/develop/doc/000ee441ef0ba08da8c8fe33f55400?jumpto=reply&parent_commentid=00086253c309e8efa7c884d6d51c&commentid=00088eba7e014871b2c81f4f8500)
 
 ### mp.Page(`options`)
 
@@ -246,6 +251,9 @@ Page 中可使用 `this.$app` 方法获取 app 实例
 
 需注意的是，在 Component 内只能在 `ready` 生命周期后获取 `this.data.$context`、调用 `this.$setContext`
 
+> 在低于 v2.7.4 的版本中 `$context` 不可用用于组件的 `$computed` 或 `observers`，兼容低版本需使用 `_context`
+> 
+> 原因为：[组件 observers 属性无法监听以 $ 开头的属性名](https://developers.weixin.qq.com/community/develop/doc/000ee441ef0ba08da8c8fe33f55400?jumpto=reply&parent_commentid=00086253c309e8efa7c884d6d51c&commentid=00088eba7e014871b2c81f4f8500)
 
 ### mp.Component(`options`)
 
