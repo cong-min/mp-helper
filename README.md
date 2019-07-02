@@ -15,7 +15,7 @@ MP Helper 不是一个框架，而是基于小程序原生 MINA 框架的开发�
 ### 特点
 
 - 轻量易用，低侵入性，低学习成本
-- 不改变小程序原生 MINA 框架的语法，同时支持原生写法
+- 不改变小程序原生 MINA 框架的语法与用法习惯
 - 编译时不会对 js 语法进行转译 （因此请开启微信开发者工具的 `ES6 转 ES5` `增强编译` 功能）
 - 小程序基础库最低要求 v2.6.1
 
@@ -72,9 +72,10 @@ import mp from 'mp-helper';
 #### 模板
 
 开发时可参考文件模板：
-- [app.mp](./templates/app.mp)
-- [page.mp](./templates/page.mp)
-- [component.mp](./templates/component.mp)
+- 注册小程序 [app.mp](./templates/app.mp)
+- 注册页面 [page.mp](./templates/page.mp)
+- 注册页面 (组件化页面) [component-page.mp](./templates/component-page.mp)
+- 注册组件 [component.mp](./templates/component.mp)
 
 #### 例子
 
@@ -232,6 +233,8 @@ mp.Page({
 ```
 
 > 若想将页面以自定义组件形式构造，可参见官方提供的方法 [使用 Component 构造器构造页面](https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/component.html#使用-Component-构造器构造页面)
+> 
+> 此情况需使用 `mp.Component` 进行注册页面，且页面配置需添加 `"usingComponents": {}`，模板可见 [component-page.mp](./templates/component-page.mp)
 
 Page 中可使用 `this.$app` 方法获取 app 实例
 

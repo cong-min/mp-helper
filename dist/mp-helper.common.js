@@ -1,6 +1,6 @@
 'use strict';
 
-var version = "0.3.4";
+var version = "0.3.5";
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -1885,19 +1885,19 @@ function injectPageInstance() {
         const pages = getCurrentPages();
         return pages[pages.length - 1];
     }
-    this.$page = this.$constructor === 'Page' ? this : getCurrentPage();
+    this.$page = getCurrentPage();
 }
 function injectEmitter() {
     if (this.$constructor === 'App') {
         this.$on = emitter.on;
         this.$off = emitter.off;
         this.$emit = emitter.emit;
-    } else if (this.$constructor === 'Page') {
-        const pageEmitter = mitt();
-        this.__emitter = pageEmitter;
-        this.$on = pageEmitter.on;
-        this.$off = pageEmitter.off;
-        this.$emit = pageEmitter.emit;
+    } else {
+        const unitEmitter = mitt();
+        this.__emitter = unitEmitter;
+        this.$on = unitEmitter.on;
+        this.$off = unitEmitter.off;
+        this.$emit = unitEmitter.emit;
     }
 }
 var injects = {
@@ -2604,8 +2604,12 @@ function parseQuery(query) {
     querystring = decodeURIComponent(querystring);
     return urlString.qs.parse(querystring);
 }
+function isComponentPage(self) { return self && self === self.$page; }
 function injectRoute(args) {
-    if (this.$constructor === 'Page') {
+    if (this.$constructor === 'Page'
+        || (this.$constructor === 'Component' && isComponentPage(this))
+    ) {
+        if (!args) return;
         let query = args[0] || {};
         if (Object.keys(query).length) query = parseQuery(query);
         args[0] = this.options = query;
@@ -2723,6 +2727,7 @@ const computed = Behavior({
 });
 
 const $constructor$2 = 'Component';
+function isComponentPage$1(self) { return self && self === self.$page; }
 function _Component(options = {}) {
     options.$constructor = $constructor$2;
     options.behaviors = options.behaviors || [];
@@ -2734,6 +2739,8 @@ function _Component(options = {}) {
         ready,
         detached
     } = options.lifetimes;
+    options.methods = options.methods || {};
+    const { onLoad } = options.methods;
     function _created(...args) {
         this.$constructor = $constructor$2;
         this.__options = options;
@@ -2747,9 +2754,18 @@ function _Component(options = {}) {
         injects.injectPageInstance.call(this);
         attached && attached.apply(this, args);
     }
+    function _onLoad(...args) {
+        if (isComponentPage$1(this)) {
+            context.register.call(this);
+            router.injectRoute.call(this, args);
+        }
+        onLoad && onLoad.apply(this, args);
+    }
     function _ready(...args) {
-        router.injectRoute.call(this);
-        context.register.call(this);
+        if (!isComponentPage$1(this)) {
+            context.register.call(this);
+            router.injectRoute.call(this);
+        }
         ready && ready.apply(this, args);
     }
     function _detached(...args) {
@@ -2759,6 +2775,7 @@ function _Component(options = {}) {
     }
     options.lifetimes.created = _created;
     options.lifetimes.attached = _attached;
+    options.methods.onLoad = _onLoad;
     options.lifetimes.ready = _ready;
     options.lifetimes.detached = _detached;
     return Component(options);

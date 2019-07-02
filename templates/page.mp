@@ -28,9 +28,9 @@ mp.Page({
 
     /* 生命周期 */
     // 页面加载
-    onLoad(options) {},
+    onLoad(query) {},
     // 页面切入显示
-    onShow(options) {},
+    onShow() {},
     // 页面渲染完成
     onReady() {},
     // 页面隐藏
