@@ -2709,8 +2709,8 @@ const computed = Behavior({
             observerMap[observerKey] = observerMap[observerKey] || {};
             observerMap[observerKey][key] = config.get;
             try {
-                defFields.data[key] = config.get.apply(defFields,
-                    dependPath.map(p => get_1(defFields.data, p)));
+                set_1(defFields.data, key, config.get.apply(defFields,
+                    dependPath.map(p => get_1(defFields.data, p))));
             } catch (err) { console.error(`computed ${key} error`, err); }
         });
         Object.keys(observerMap).forEach(observerKey => {
