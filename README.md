@@ -9,7 +9,7 @@ MP Helper 不是一个框架，而是基于小程序原生 MINA 框架的开发�
 
 - 使用 `.mp` 单文件页面组件化开发，内聚且耦合
 - 支持 `require` `import` 直接引入 npm 包依赖
-- `API` 语法增强，新增数据状态管理 `store` `context`、事件管理 `emitter`、计算数据 `computed` 等能力
+- `API` 语法增强，新增数据状态管理 `store` `context`、事件管理 `emitter`、计算属性 `computed` 等能力
 - 拓展工具集，包含小程序原生方法 Promise 化 `promiser` 、类名属性连接 `classNames`、行内样式连接 `inlineStyles` 等方法
 
 ### 特点
@@ -22,7 +22,6 @@ MP Helper 不是一个框架，而是基于小程序原生 MINA 框架的开发�
 ### TODO
 
 - 命令行 `CLI`：图片支持压缩
-- 命令行 `CLI`：`<config>` 支持 js 语法
 
 
 ## 快速上手
@@ -139,7 +138,7 @@ mp.Page({
 
 | 标签 | 编译分离 | 属性 |
 |:--- |:--- |:--- |
-| 页面配置 `config` | 生成 [index.json](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/page.html) | `lang` 可选值为 `json`，默认值为 `json` |
+| 页面配置 `config` | 生成 [index.json](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/page.html) | `lang` 可选值为 `json` `js`，默认值为 `json` |
 | 页面模板 `template` | 生成 [index.wxml](https://developers.weixin.qq.com/miniprogram/dev/framework/quickstart/code.html#WXML-模板) | `lang` 可选值为 `wxml`，默认值为 `wxml` |
 | 页面逻辑 `script` | 生成 [index.js](https://developers.weixin.qq.com/miniprogram/dev/framework/quickstart/code.html#JS-逻辑交互) | `lang` 可选值为 `js`/`javascript`，默认值为 `js` |
 | 页面样式 `style` | 生成 [index.wxss](https://developers.weixin.qq.com/miniprogram/dev/framework/quickstart/code.html#WXSS-样式) | `lang` 可选值为 `less`、`wxss`，默认值为 `wxss` |
