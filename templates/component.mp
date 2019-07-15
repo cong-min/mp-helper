@@ -16,7 +16,7 @@ import mp from 'mp-helper';
 mp.Component({
     // 配置项
     options: {
-        //addGlobalClass: false, // 是否支持全局样式
+        //addGlobalClass: true, // 是否支持全局样式
     },
 
     // 引用组件混入

@@ -6,7 +6,7 @@
 </config>
 
 <template>
-<view class="container">
+<view class="container page">
 
 </view>
 </template>
@@ -16,6 +16,11 @@ import mp from 'mp-helper';
 // 注册页面 (使用 Component 构造组件化页面)
 // https://developers.weixin.qq.com/miniprogram/dev/framework/custom-component/component.html#使用-Component-构造器构造页面
 mp.Component({
+    // 配置项
+    options: {
+        addGlobalClass: true, // 支持全局样式
+    },
+
     // 上下文数据 store (mp-helper 增强API)
     // 将注入到当前页面及其所有组件的 data.$context 内, 跨页面不共享
     // 通过 this.$setContext 设置页面上下文数据使页面响应, 用法与一致 setData
@@ -69,7 +74,7 @@ mp.Component({
 </script>
 
 <style lang="less">
-.container {
+.page {
 
 }
 </style>

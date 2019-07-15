@@ -5,7 +5,7 @@
 </config>
 
 <template>
-<view class="container">
+<view class="container page">
 
 </view>
 </template>
@@ -60,7 +60,7 @@ mp.Page({
 </script>
 
 <style lang="less">
-.container {
+.page {
 
 }
 </style>
