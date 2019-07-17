@@ -1,4 +1,4 @@
-var version = "0.4.0";
+var version = "0.4.1";
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -1887,7 +1887,13 @@ function injectPageInstance() {
         const pages = getCurrentPages();
         return pages[pages.length - 1];
     }
-    this.$page = getCurrentPage();
+    if (this.$constructor === 'App') {
+        Object.defineProperty(this, '$page', {
+            get: getCurrentPage,
+        });
+    } else {
+        this.$page = getCurrentPage();
+    }
 }
 function injectEmitter() {
     if (this.$constructor === 'App') {
@@ -1907,64 +1913,6 @@ var injects = {
     injectAppInstance,
     injectPageInstance,
     injectEmitter,
-};
-
-const $constructor = 'App';
-function _App(options = {}) {
-    options.$constructor = $constructor;
-    const { onLaunch } = options;
-    function _onLaunch(...args) {
-        this.$constructor = $constructor;
-        this.__options = options;
-        injects.injectAppInstance.call(this);
-        injects.injectEmitter.call(this);
-        store.injectSetStore.call(this);
-        onLaunch && onLaunch.apply(this, args);
-    }
-    options.onLaunch = _onLaunch;
-    return App(options);
-}
-
-function injectSetContext() {
-    const vm = this;
-    function $setContext(...args) {
-        const obj = args[0] || {};
-        Object.keys(obj).forEach(key => {
-            set_1(vm.$page.$context, key, obj[key]);
-        });
-        return vm.$page.$emit('$setContext', ...args);
-    }
-    vm.$setContext = $setContext;
-}
-function register$1() {
-    const vm = this;
-    if (!vm.$page) return;
-    vm.$page.$context = merge_1({}, vm.$page.$context, vm.__options.$context);
-    vm.__setData({
-        $context: vm.$page.$context,
-        _context: vm.$page.$context
-    });
-    function setContextHandler(obj, callback) {
-        return vm.setData({
-            ...mapKeys_1(obj, (value, key) =>
-                ['$context', key].join(/^\[/.test(key) ? '' : '.')),
-            ...mapKeys_1(obj, (value, key) =>
-                ['_context', key].join(/^\[/.test(key) ? '' : '.')),
-        }, callback);
-    }
-    vm.__setContextHandler = setContextHandler;
-    vm.$page.$on('$setContext', setContextHandler);
-    injectSetContext.call(this);
-}
-function unregister$1() {
-    const vm = this;
-    if (!vm.__setContextHandler) return;
-    vm.$page.$off('$setContext', vm.__setContextHandler);
-}
-var context = {
-    injectSetContext,
-    register: register$1,
-    unregister: unregister$1,
 };
 
 var has = Object.prototype.hasOwnProperty;
@@ -2626,11 +2574,73 @@ function injectRoute(args) {
             webViewId: this.__wxWebviewId__,
         };
     } else {
-        this.$route = this.$page.$route;
+        Object.defineProperty(this, '$route', {
+            get: () => this.$page.$route,
+        });
     }
 }
 var router = {
     injectRoute,
+};
+
+const $constructor = 'App';
+function _App(options = {}) {
+    options.$constructor = $constructor;
+    const { onLaunch } = options;
+    function _onLaunch(...args) {
+        this.$constructor = $constructor;
+        this.__options = options;
+        injects.injectAppInstance.call(this);
+        injects.injectPageInstance.call(this);
+        injects.injectEmitter.call(this);
+        router.injectRoute.call(this);
+        store.injectSetStore.call(this);
+        onLaunch && onLaunch.apply(this, args);
+    }
+    options.onLaunch = _onLaunch;
+    return App(options);
+}
+
+function injectSetContext() {
+    const vm = this;
+    function $setContext(...args) {
+        const obj = args[0] || {};
+        Object.keys(obj).forEach(key => {
+            set_1(vm.$page.$context, key, obj[key]);
+        });
+        return vm.$page.$emit('$setContext', ...args);
+    }
+    vm.$setContext = $setContext;
+}
+function register$1() {
+    const vm = this;
+    if (!vm.$page) return;
+    vm.$page.$context = merge_1({}, vm.$page.$context, vm.__options.$context);
+    vm.__setData({
+        $context: vm.$page.$context,
+        _context: vm.$page.$context
+    });
+    function setContextHandler(obj, callback) {
+        return vm.setData({
+            ...mapKeys_1(obj, (value, key) =>
+                ['$context', key].join(/^\[/.test(key) ? '' : '.')),
+            ...mapKeys_1(obj, (value, key) =>
+                ['_context', key].join(/^\[/.test(key) ? '' : '.')),
+        }, callback);
+    }
+    vm.__setContextHandler = setContextHandler;
+    vm.$page.$on('$setContext', setContextHandler);
+    injectSetContext.call(this);
+}
+function unregister$1() {
+    const vm = this;
+    if (!vm.__setContextHandler) return;
+    vm.$page.$off('$setContext', vm.__setContextHandler);
+}
+var context = {
+    injectSetContext,
+    register: register$1,
+    unregister: unregister$1,
 };
 
 const $constructor$1 = 'Page';
