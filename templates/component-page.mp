@@ -1,7 +1,7 @@
 <config lang="json">
 {
     "navigationBarTitleText": "组件化页面",
-    "usingComponents": {},
+    "usingComponents": {}
 }
 </config>
 
@@ -21,7 +21,7 @@ mp.Component({
         addGlobalClass: true, // 支持全局样式
     },
 
-    // 上下文数据 store (mp-helper 增强API)
+    // 上下文数据 context (mp-helper 增强API)
     // 将注入到当前页面及其所有组件的 data.$context 内, 跨页面不共享
     // 通过 this.$setContext 设置页面上下文数据使页面响应, 用法与一致 setData
     $context: {
