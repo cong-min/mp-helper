@@ -22,7 +22,7 @@ MP Helper 不是一个框架，而是基于小程序原生 MINA 框架的开发�
 ### TODO
 
 - 命令行 `CLI`：图片支持压缩
-
+- 修复 `setData` 赋值 `undefined` 报错
 
 ## 快速上手
 

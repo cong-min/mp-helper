@@ -1,6 +1,6 @@
 'use strict';
 
-var version = "0.4.1";
+var version = "0.4.2";
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -1824,7 +1824,7 @@ function injectSetStore() {
 }
 function register() {
     const vm = this;
-    if (!vm.$app) return;
+    if (!vm.$app || !vm.$app.$constructor) return;
     vm.$app.$store = merge_1({}, vm.$app.$store, vm.__options.$store);
     vm.__setData({
         $store: vm.$app.$store,
@@ -1891,6 +1891,7 @@ function injectPageInstance() {
     }
     if (this.$constructor === 'App') {
         Object.defineProperty(this, '$page', {
+            enumerable: true,
             get: getCurrentPage,
         });
     } else {
@@ -2561,23 +2562,27 @@ function parseQuery(query) {
     return urlString.qs.parse(querystring);
 }
 function isComponentPage(self) { return self && self === self.$page; }
+function computeRoute(query) {
+    if (Object.keys(query).length) query = parseQuery(query);
+    const route = this.route || this.__route__;
+    return {
+        path: route && !/^\//.test(route) ? `/${route}` : route,
+        query,
+        webViewId: this.__wxWebviewId__,
+    };
+}
 function injectRoute(args) {
     if (this.$constructor === 'Page'
         || (this.$constructor === 'Component' && isComponentPage(this))
     ) {
         if (!args) return;
-        let query = args[0] || {};
-        if (Object.keys(query).length) query = parseQuery(query);
-        args[0] = this.options = query;
-        const route = this.route || this.__route__;
-        this.$route = {
-            path: route && !/^\//.test(route) ? `/${route}` : route,
-            query,
-            webViewId: this.__wxWebviewId__,
-        };
+        this.$route = computeRoute.call(this, args[0] || {});
+        args[0] = this.options = this.$route.query;
     } else {
         Object.defineProperty(this, '$route', {
-            get: () => this.$page.$route,
+            enumerable: true,
+            get: () => this.$page.$route
+                || computeRoute.call(this.$page, this.$page.options || {}),
         });
     }
 }
@@ -2616,7 +2621,7 @@ function injectSetContext() {
 }
 function register$1() {
     const vm = this;
-    if (!vm.$page) return;
+    if (!vm.$page || !vm.$page.$constructor) return;
     vm.$page.$context = merge_1({}, vm.$page.$context, vm.__options.$context);
     vm.__setData({
         $context: vm.$page.$context,
@@ -2687,7 +2692,7 @@ const computed = Behavior({
                 try {
                     value = config.get.apply(vm, dependPath.map(p => get_1(vm.data, p)));
                 } catch (err) { console.error(`computed ${key} error`, err); }
-                if (!value || value === vm.data[key]) return;
+                if (value === undefined || value === vm.data[key]) return;
                 needUpdate[key] = value;
             });
             vm.__setData(needUpdate);
@@ -2721,8 +2726,9 @@ const computed = Behavior({
             observerMap[observerKey] = observerMap[observerKey] || {};
             observerMap[observerKey][key] = config.get;
             try {
-                set_1(defFields.data, key, config.get.apply(defFields,
-                    dependPath.map(p => get_1(defFields.data, p))));
+                const value = config.get.apply(defFields,
+                    dependPath.map(p => get_1(defFields.data, p)));
+                if (value !== undefined) set_1(defFields.data, key, value);
             } catch (err) { console.error(`computed ${key} error`, err); }
         });
         Object.keys(observerMap).forEach(observerKey => {
@@ -2733,7 +2739,8 @@ const computed = Behavior({
                 const vm = this;
                 this.__setData(
                     Object.keys(computeds).reduce((obj, computedKey) => {
-                        obj[computedKey] = computeds[computedKey].apply(vm, args);
+                        const value = computeds[computedKey].apply(vm, args);
+                        if (value !== undefined) obj[computedKey] = value;
                         return obj;
                     }, {})
                 );
