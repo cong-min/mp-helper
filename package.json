@@ -1,6 +1,6 @@
 {
   "name": "mp-helper",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "微信小程序轻量级组件化开发助手(库)",
   "license": "UNLICENSE",
   "main": "dist/mp-helper.js",
@@ -31,6 +31,7 @@
     "eval": "^0.1.4",
     "glob-parent": "^5.0.0",
     "gulp": "^4.0.2",
+    "import-regex": "^1.1.0",
     "konan": "^1.2.1",
     "less": "^3.9.0",
     "lodash": "^4.17.11",
