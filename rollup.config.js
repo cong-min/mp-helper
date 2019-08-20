@@ -4,6 +4,12 @@ import commonjs from 'rollup-plugin-commonjs';
 import json from 'rollup-plugin-json';
 import cleanup from 'rollup-plugin-cleanup';
 
+const { version } = require('./package.json');
+
+const banner = `/* mp-helper v${version}\n`
+    + ' * https://github.com/mcc108/mp-helper\n'
+    + ' */';
+
 export default [{
     output: 'dist/mp-helper.js',
     format: 'esm',
@@ -16,6 +22,7 @@ export default [{
         name: 'mp',
         file: output,
         format,
+        banner,
     },
     plugins: [
         resolve(),
