@@ -1,6 +1,9 @@
+/* mp-helper v0.5.0
+ * https://github.com/mcc108/mp-helper
+ */
 'use strict';
 
-var version = "0.4.5";
+var version = "0.5.0";
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -2126,10 +2129,13 @@ function cloneDeep(value) {
 }
 var cloneDeep_1 = cloneDeep;
 
-var deepFreeze = function deepFreeze (o) {
+var deepFreezeStrict = function deepFreeze (o) {
   Object.freeze(o);
+  var oIsFunction = typeof o === "function";
+  var hasOwnProp = Object.prototype.hasOwnProperty;
   Object.getOwnPropertyNames(o).forEach(function (prop) {
-    if (o.hasOwnProperty(prop)
+    if (hasOwnProp.call(o, prop)
+    && (oIsFunction ? prop !== 'caller' && prop !== 'callee' && prop !== 'arguments' : true )
     && o[prop] !== null
     && (typeof o[prop] === "object" || typeof o[prop] === "function")
     && !Object.isFrozen(o[prop])) {
@@ -2161,7 +2167,8 @@ const emitter = mitt();
 
 function injectKeepOptions(options) {
     this.__options = cloneDeep_1(options);
-    deepFreeze(this.__options);
+    deepFreezeStrict(this.__options);
+    this.$options = cloneDeep_1(this.__options);
     Object.defineProperty(this, '$options', {
         enumerable: true,
         get: () => cloneDeep_1(this.__options),
