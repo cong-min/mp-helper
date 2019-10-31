@@ -1,7 +1,7 @@
-/* mp-helper v0.5.0
+/* mp-helper v0.5.1
  * https://github.com/mcc108/mp-helper
  */
-var version = "0.5.0";
+var version = "0.5.1";
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
@@ -2881,8 +2881,9 @@ function injectRoute(args) {
     } else {
         Object.defineProperty(this, '$route', {
             enumerable: true,
-            get: () => this.$page.$route
-                || computeRoute.call(this.$page, this.$page.options || {}),
+            get: () => (this.$page
+                ? (this.$page.$route || computeRoute.call(this.$page, this.$page.options || {}))
+                : {}),
         });
     }
 }
