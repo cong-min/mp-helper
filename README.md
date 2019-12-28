@@ -7,7 +7,7 @@ MP Helper 不是一个框架，而是基于小程序原生 MINA 框架的开发�
 
 ### 特性
 
-- 使用 `.mp` 单文件页面组件化开发，内聚且耦合
+- 使用 `.mp` 单文件页面组件化开发，内聚且低耦合
 - 支持 `require` `import` 直接引入 npm 包依赖
 - `API` 语法增强，新增数据状态管理 `store` `context`、事件管理 `emitter`、计算属性 `computed` 等能力
 - 拓展工具集，包含小程序原生方法 Promise 化 `promiser` 、类名属性连接 `classNames`、行内样式连接 `inlineStyles` 等方法
@@ -51,6 +51,10 @@ $ npm i -S mp-helper
 
 至此即可使用 `.mp` 单文件规范进行开发
 
+在微信开发者工具中需要勾选下述两项
+- ES6 转 ES5
+- (可选) 启用自定义启动命令 `npm run build`
+
 ### 引入类库 Core
 
 ```html
@@ -67,6 +71,19 @@ import mp from 'mp-helper';
 ---
 
 ## `.mp` 单文件
+
+#### 显示高亮
+
+在当前项目根目录下，创建 `.vscode/settings.json` 文件，内容为：
+
+```json
+{
+  "files.associations": {
+    "*.mp": "html"
+  },
+  "css.validate": false
+}
+```
 
 #### 模板
 
@@ -197,6 +214,7 @@ $ mp-helper -c -w
     }
 }
 ```
+
 
 
 ## 增强 API

@@ -1,7 +1,7 @@
-<config>
-{
+<config lang="js">
+module.exports = {
     "component": true
-}
+};
 </config>
 
 <template>

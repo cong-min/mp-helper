@@ -1,7 +1,7 @@
-<config lang="json">
-{
+<config lang="js">
+module.exports = {
     "navigationBarTitleText": "页面"
-}
+};
 </config>
 
 <template>
