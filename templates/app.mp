@@ -1,5 +1,5 @@
-<config lang="json">
-{
+<config lang="js">
+module.exports = {
     "pages": [
     ],
     "window": {
@@ -9,7 +9,7 @@
         "navigationBarTitleText": "小程序",
         "navigationBarTextStyle": "black"
     }
-}
+};
 </config>
 
 <script>

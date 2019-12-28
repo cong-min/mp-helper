@@ -1,0 +1,6 @@
+{
+  "files.associations": {
+    "*.mp": "html"
+  },
+  "css.validate": false
+}

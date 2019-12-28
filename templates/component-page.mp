@@ -1,8 +1,8 @@
-<config lang="json">
-{
+<config lang="js">
+module.exports = {
     "navigationBarTitleText": "组件化页面",
     "usingComponents": {}
-}
+};
 </config>
 
 <template>
